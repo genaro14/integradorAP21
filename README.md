@@ -2,7 +2,7 @@
 Trabajo integrador Intro Alg y Prog 2021
 ## Integrantes
 + Augusto Lovagnini 
-+ Buchieri Giovanni
++ Giovanni Buchieri 
 + Genaro Pennone
 
 ## Próximas Actividades
