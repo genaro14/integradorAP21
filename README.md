@@ -15,8 +15,8 @@ La resolución del Trabajo Práctico Integrador debe incluir:
 + Diseño (algoritmo)
 + Pruebas
 2. un archivo de texto con el Programa fuente en C
-El Trabajo Práctico Integrador es obligatorio y debe aprobarse (igual que un parcial). No tiene recuperatorio.
-**Análisis y Diseño:** Carpeta [doc](https://github.com/genaro14/integradorAP21/tree/main/doc)
+El Trabajo Práctico Integrador es obligatorio y debe aprobarse (igual que un parcial). No tiene recuperatorio.    
+**Análisis y Diseño:** Carpeta [doc](https://github.com/genaro14/integradorAP21/tree/main/doc)    
 **Código:** Carpeta [code](https://github.com/genaro14/integradorAP21/tree/main/code)
 
 ## Cronograma
