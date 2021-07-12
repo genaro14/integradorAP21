@@ -12,39 +12,29 @@ typedef struct {
                   String a[Max]; // Tnumer
                   int cant;   // cantidad de notas a ser cargadas
                } TData;
-TData misNotas;
-float promedio;
-void cargarNotas( TData *carga )
+TData nombres;
+
+bool vacia( TData nom ) // Funcion Vacia
 {
-  int aux;
-  printf("Cuantas notas va a cargar? \n");
-	scanf("%d",&aux);
-  printf("Ingrese las notas \n");
-  for (int i = 0; i < aux; i++)
-	{
-    printf("nota %d: ", i+1);
-    scanf("%d",&carga->a[i] );
-    while ((*carga).a[i] < 0 || (*carga).a[i] > 10)
-    {//validar ent
-      printf("Las notas estan comprendidas entre 0 y 10. Reingrese \n");
-      scanf("%d",&carga->a[i] );
-    }
-  }
-  (*carga).cant = aux;
+  return true
 }
 
-void promedioNotas( TData not, float *prom )
+bool llena( TData nom ) // Funcion Llena
 {
-	for (int i = 0; i < not.cant; i++)
-	{
-		*prom = *prom + not.a[i];
-	}
-	*prom = *prom / not.cant;
+  return true
 }
+
+Tdata cargarNuevoNombre ( *TData, string nuevoNomb )
+{
+
+}
+void suprimirNombre( *Tdata nom )
+{
+
+}
+void mostrar( TData nom )
 
 void main()
 {
-  cargarNotas(&misNotas);
-  promedioNotas(misNotas, &promedio);
-  printf("El promedio de las notas es: %f \n", promedio);
+  // menu interactivo
 }
