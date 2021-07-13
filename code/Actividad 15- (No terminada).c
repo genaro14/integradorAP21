@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define Max 1000
 
@@ -13,7 +14,8 @@ typedef struct
 TData arreglo;
 char nuevoName[100];
 
-int volver, seleccion, v, l;
+int volver,seleccion, v, l;
+bool salir;
 
 	/* Accion CargarArreglo */
 void CargarArreglo(TData *nom);
@@ -25,7 +27,7 @@ int Vacia(TData nom);
 int Llena(TData nom);
 
 	/* Accion CargarNuevoNombre */
-void CargarNuevoNombre(TData *nom, char* nuevoNomb);
+void CargarNuevoNombre(TData *nom);
 
 	/* Accion SuprimirNombre */
 void SuprimirNombre(TData *nom);
@@ -37,25 +39,34 @@ void Mostrar(TData nom);
 //Inicio del algoritmo
 int main()
 {
-	volver = 0;
-	while(volver == 0){
+	salir = false;
+	while(!salir){
+		system("clear");
+		printf("---------------------------------------------------------------------------------- \n");
+		printf("Que quieres hacer? \n");
+		printf("[1]Cargar Nuevo Arreglo. \n");
+		printf("[2]Cargar Nuevo Nombre. \n");
+		printf("[3] Suprimir el primer Nombre. \n");
+		printf("[4] Mostrar lo que contiene el arreglo \n");
+		printf("[5] Salir \n " );
+		printf("*INGRESA AQUI EL NUMERO: \n");
 
-		printf("Que quieres hacer? \n [1]Cargar Nuevo Arreglo. \n [2]Cargar Nuevo Nombre. \n [3] Suprimir el primer Nombre. \n [4] Mostrar lo que contiene el arreglo \n\n *INGRESA AQUI EL NUMERO:");
 		scanf("%d", &seleccion);
-		while(seleccion < 1 || seleccion > 4 ){
+		while(seleccion < 1 || seleccion > 5 ){
 			printf("No existe ninguna operacion con ese numero.");
-			printf("Que quieres hacer? \n [1]Cargar Nuevo Arreglo. \n [2]Cargar Nuevo Nombre. \n [3] Suprimir el primer Nombre. \n [4] Mostrar lo que contiene el arreglo \n *INGRESA AQUI EL NUMERO: ");
+			printf("Que quieres hacer? \n [1]Cargar Nuevo Arreglo. \n [2]Cargar Nuevo Nombre. \n [3] Suprimir el primer Nombre. \n [4] Mostrar lo que contiene el arreglo[5] Salir \n \n *INGRESA AQUI EL NUMERO: ");
 			scanf("%d", &seleccion);
 		}
 
-		if (seleccion == 1) 
+		if (seleccion == 1)
 		{
 			CargarArreglo(&arreglo);
 			printf("Arreglo cargado con Exito\n\n");
 		} else {
 			if (seleccion == 2)
 			{
-				printf("Esta operacion no esta disponible en este momento\n\n");
+				CargarNuevoNombre(&arreglo);
+				getchar();
 			} else {
 				if (seleccion == 3)
 				{
@@ -64,28 +75,36 @@ int main()
 					if (v != 1)
 					{
 						SuprimirNombre(&arreglo);
-					} else{
+					} else
+						{
 						printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n\n");
-					}
-					
-				} else {
-					v = Vacia(arreglo);
-					if (v != 1)
+						getchar();
+						}
+
+				} else if(seleccion == 4)
 					{
-						Mostrar(arreglo);
-					}else{
-						printf("No se puede mostrar el arreglo, porque esta vacio \n\n");
+    				if ( !Vacia(arreglo) )
+						{
+							Mostrar(arreglo);
+							getchar();
+						} else
+						{
+							printf("No se puede mostrar el arreglo, porque esta vacio \n");
+							getchar();
+						}
+
 					}
-					
-				}
+					else if (seleccion == 5)
+					{
+						salir =true;
+					}
+
 			}
 		}
 
-		printf("Ingresa [0] si quieres volver al menu. Si quieres terminar ingresa cualquier numero: ");
-		scanf("%d", &volver);
+		//scanf("%d", &volver);
 	};
 
-	system("pause");
 	return 0;
 }
 
@@ -105,13 +124,10 @@ void CargarArreglo(TData *nom){
 		scanf("%d", &nom->cant);
 
 	};
-
-	j = 1; //Esta variable la utilizo para que el usuario sepa cual es el numero del nombre que va ingresar
 	for (int i = 0; i < nom->cant; ++i)
 	{
-		printf("Ingresa el (%d) nombre: ", j);
+		printf("Ingresa el (%d) nombre: ", i+1);
 		scanf("%s", nom->nombres[i]);
-		j = ++j;
 	}
 
 }
@@ -124,6 +140,7 @@ int Vacia(TData nom){
 	} else {
 		return(0);
 	}
+
 }
 
 
@@ -137,43 +154,40 @@ int Llena(TData nom){
 	}
 }
 
-/*
-void CargarNuevoNombre(TData *nom){
+
+void CargarNuevoNombre(TData *nom)
+{
 	//Lexico local
-	char nuevoNombre[100]
+	char nuevoNombre[100];
 	//Inicio de la funcion
-	if (Llena(*nom) == 1)
+	if (Llena(*nom) )
 	{
 		printf("No es posible insertar el nuevo nombre ya que el arreglo está lleno \n");
 	} else{
-		printf("Ingresa el nombre que quieres insertar ");
+		printf("Ingresa el nombre que quieres insertar: ");
 		scanf("%s", nuevoNombre);
 		nom->cant = nom->cant+1;
-
-		strcpy(nom->nombres[caca], nuevoNomb);
-		printf("Nuevo nombre insertado con exito\n");
+		strcpy(nom->nombres[nom->cant-1], nuevoNombre);// el arreglo comienza en 0
+		printf("Nuevo nombre insertado con exito \n");
+		getchar();
 	}
 
 }
-*/
 
 void SuprimirNombre(TData *nom){
 	//Inicio de la accion
 	nom->cant = nom->cant - 1;
-	strcpy(nom->nombres[0], nom->nombres[nom->cant]); 
+	strcpy(nom->nombres[0], nom->nombres[nom->cant]);
+	getchar();
 }
 
 
 void Mostrar(TData nom){
-	//Lexico Local
-	int j;
 	//Inicio de la accion
 
-	j = 1; //Esta variable la utilizo para que el usuario sepa cual es el numero del nombre que se va a mostrar
 	for (int i = 0; i < nom.cant; ++i)
 	{
-		printf("El nombre (%d) es: %s \n", j, nom.nombres[i]);
-		j = ++j;
+		printf("El nombre (%d) es: %s \n", i+1, nom.nombres[i]);
 	}
-
+	getchar();
 }
