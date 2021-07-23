@@ -18,17 +18,7 @@ int volver,seleccion, v, l;
 bool salir;
 
 	/* Accion CargarArreglo */
-void CargarArreglo(TData *nom);
-
-	/* Funcion Vacia */
-int Vacia(TData nom);
-
-	/* Funcion llena */
-int Llena(TData nom);
-
-	/* Accion CargarNuevoNombre */
-void CargarNuevoNombre(TData *nom);
-
+void Menu(void);
 	/* Accion SuprimirNombre */
 void SuprimirNombre(TData *nom);
 
@@ -42,19 +32,12 @@ int main()
 	salir = false;
 	while(!salir){
 		system("clear");
-		printf("---------------------------------------------------------------------------------- \n");
-		printf("Que quieres hacer? \n");
-		printf("[1]Cargar Nuevo Arreglo. \n");
-		printf("[2]Cargar Nuevo Nombre. \n");
-		printf("[3] Suprimir el primer Nombre. \n");
-		printf("[4] Mostrar lo que contiene el arreglo \n");
-		printf("[5] Salir \n " );
-		printf("*INGRESA AQUI EL NUMERO: \n");
+		Menu();
 
 		scanf("%d", &seleccion);
 		while(seleccion < 1 || seleccion > 5 ){
 			printf("No existe ninguna operacion con ese numero.");
-			printf("Que quieres hacer? \n [1]Cargar Nuevo Arreglo. \n [2]Cargar Nuevo Nombre. \n [3] Suprimir el primer Nombre. \n [4] Mostrar lo que contiene el arreglo[5] Salir \n \n *INGRESA AQUI EL NUMERO: ");
+			Menu();
 			scanf("%d", &seleccion);
 		}
 
@@ -110,6 +93,16 @@ int main()
 
 //Fin
 
+void Menu(void) {
+	printf("---------------------------------------------------------------------------------- \n");
+	printf("Que quieres hacer? \n");
+	printf("[1]Cargar Nuevo Arreglo. \n");
+	printf("[2]Cargar Nuevo Nombre. \n");
+	printf("[3] Suprimir el primer Nombre. \n");
+	printf("[4] Mostrar lo que contiene el arreglo \n");
+	printf("[5] Salir \n " );
+	printf("*INGRESA AQUI EL NUMERO: \n");
+}
 
 void CargarArreglo(TData *nom){
 	//Lexico Local
