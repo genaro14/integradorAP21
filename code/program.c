@@ -178,6 +178,40 @@ void CargarNuevoNombre(TData *nom)
 	}
 }
 
+/* void CargarNuevoNombre(TData *nom)
+{
+	//Lexico local
+	char nuevoNombre[100];
+	int j;
+	//Inicio de la funcion
+	    printf("Ingresa la cantidad de nombres que desea cargar: ");
+	    scanf("%d", &j);
+ 
+	    while(j < 0 || j > 1000){
+
+		printf("La cantidad de nombres tiene que estar entre 0 y 1000, porfavor ingrese nuevamente la cantidad: ");
+		scanf("%d", &j);
+
+	    };
+	if (Llena(*nom) )
+	{
+		printf("No es posible insertar el nuevo nombre ya que el arreglo está lleno \n");
+	} else{
+	    
+	    for (int i = 0; i < j; ++i)
+		{
+		printf("Ingresa el  nombre que quieres insertar: ");
+		scanf("%s", nuevoNombre);
+		nom->cant = nom->cant+1;
+		strcpy(nom->nombres[nom->cant-1], nuevoNombre);// el arreglo comienza en 0
+		printf("Nuevo nombre insertado con exito \n");
+		getchar();
+		}
+	}
+
+}
+
+*/
 void SuprimirNombre(TData *nom){
 	//Inicio de la accion
 	// OK
