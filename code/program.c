@@ -16,15 +16,17 @@ char nuevoName[100];
 
 int volver,seleccion, v, l;
 bool salir;
+int CargarNuevoNombre(TData *nom);
 
+int CargarArreglo(TData *nom);
 	/* Accion CargarArreglo */
-void Menu(void);
+int Menu(void);
 	/* Accion SuprimirNombre */
 void SuprimirNombre(TData *nom);
-
 	/* Accion Mostrar */
 void Mostrar(TData nom);
-
+/*  Mostrar */
+int Vacia(TData nom);
 
 //Inicio del algoritmo
 int main()
@@ -79,7 +81,7 @@ int main()
 					}
 					else if (seleccion == 5)
 					{
-						salir =true;
+						salir = true;
 					}
 
 			}
@@ -93,7 +95,7 @@ int main()
 
 //Fin
 
-void Menu(void) {
+int Menu(void) {
 	printf("---------------------------------------------------------------------------------- \n");
 	printf("Que quieres hacer? \n");
 	printf("[1]Cargar Nuevo Arreglo. \n");
@@ -102,9 +104,10 @@ void Menu(void) {
 	printf("[4] Mostrar lo que contiene el arreglo \n");
 	printf("[5] Salir \n " );
 	printf("*INGRESA AQUI EL NUMERO: \n");
+	return 0;
 }
 
-void CargarArreglo(TData *nom){
+int CargarArreglo(TData *nom){
 	// Combinar con cargarNombre y chequear cantidad de carga en el tamaño del arreglo
 	//Lexico Local
 	int j;
@@ -122,11 +125,11 @@ void CargarArreglo(TData *nom){
 	fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
 	for (int i = 0; i < nom->cant; ++i)
 	{
-		printf("Ingresa el (%d) nombre: ", i+1);
+		printf("Ingresa el (%d)° nombre: ", i+1);
 		//scanf("%s", nom->nombres[i]); // cambiar por get
 		fgets((*nom).nombres[i],50,stdin);
 	}
-
+return 0;
 }
 
 int Vacia(TData nom){
@@ -154,23 +157,23 @@ int Llena(TData nom){
 }
 
 
-void CargarNuevoNombre(TData *nom)
-{
+int CargarNuevoNombre(TData *nom){
 	//Lexico local
 	char nuevoNombre[100];
 	char cleanBuffer[2];
-
+	char ch;
 	//Inicio de la funcion
 	if (Llena(*nom) )
 	{
 		printf("No es posible insertar el nuevo nombre ya que el arreglo está lleno \n");
 	} else{
-		printf("Ingresa el nombre que quieres insertar: ");
+		printf("Ingresa el nombre que quieres insertar: \n");
 		//scanf("%s", nuevoNombre); // Validar entrada de nombres, Cambiar por get
-		fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
+		// fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
+		ch = getchar();
 		fgets(nuevoNombre,50,stdin);
 		nom->cant = nom->cant+1;
-		fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
+		//fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
 		strcpy((*nom).nombres[(*nom).cant-1], nuevoNombre);
 		printf("El nombre es: %s", ((*nom).nombres[(*nom).cant-1]));
 		printf("Nuevo nombre insertado con exito \n");
@@ -186,7 +189,7 @@ void CargarNuevoNombre(TData *nom)
 	//Inicio de la funcion
 	    printf("Ingresa la cantidad de nombres que desea cargar: ");
 	    scanf("%d", &j);
- 
+
 	    while(j < 0 || j > 1000){
 
 		printf("La cantidad de nombres tiene que estar entre 0 y 1000, porfavor ingrese nuevamente la cantidad: ");
@@ -197,7 +200,7 @@ void CargarNuevoNombre(TData *nom)
 	{
 		printf("No es posible insertar el nuevo nombre ya que el arreglo está lleno \n");
 	} else{
-	    
+
 	    for (int i = 0; i < j; ++i)
 		{
 		printf("Ingresa el  nombre que quieres insertar: ");
