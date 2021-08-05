@@ -44,12 +44,12 @@ int main()
 	char entrada;
 	salir = false;
 	while(!salir){
-		system("cls");
+		system("clear");
 		Menu();
 		scanf("%c", &entrada); // Valida Entrada
 		seleccion = atoi(&entrada);
 		while(seleccion < 1 || seleccion > 5 ) {
-			system("cls");
+			system("clear");
 			printf("No existe ninguna operacion con ese numero.");
 			Menu();
 			scanf("%c", &entrada);// Valida Entrada
