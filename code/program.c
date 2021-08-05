@@ -4,7 +4,21 @@
 #include <stdbool.h>
 
 #define Max 1000
-
+// int atoi(const char* str){
+//     int num = 0;
+//     int i = 0;
+//     bool isNegetive = false;
+//     if(str[i] == '-'){
+//         isNegetive = true;
+//         i++;
+//     }
+//     while (str[i] && (str[i] >= '0' && str[i] <= '9')){
+//         num = num * 10 + (str[i] - '0');
+//         i++;
+//     }
+//     if(isNegetive) num = -1 * num;
+//     return num;
+//}
 typedef struct
 {
 	char nombres[Max][100];
@@ -42,17 +56,21 @@ void Mostrar(TData nom);
 //Inicio del algoritmo
 int main()
 {
+	 char entrada;
 	salir = false;
 	while(!salir){
 		system("cls");
 		Menu();
+		scanf("%c", &entrada);// Valida Entrada
+		seleccion = atoi(&entrada);
 
-		scanf("%d", &seleccion);// Valida Entrada
 		while(seleccion < 1 || seleccion > 5 ){
 			system("cls");
 			printf("No existe ninguna operacion con ese numero.");
 			Menu();
-			scanf("%d", &seleccion);
+			scanf("%c", &entrada);// Valida Entrada
+			printf("%c \n", entrada );
+			seleccion = atoi(&entrada);
 		}
 
 		if (seleccion == 1)
@@ -185,7 +203,7 @@ void CargarNuevoNombre(TData *nom)
 		printf("Ingresa el  nombre que quieres insertar: ");
 		fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
 		fgets(nuevoNombre,50,stdin);
-		nom->cant = nom->cant+1;
+		nom->cant = 1;
 		strcpy(nom->nombres[nom->cant-1], nuevoNombre);// el arreglo comienza en 0
 		printf("Nuevo nombre insertado con exito \n");
 
