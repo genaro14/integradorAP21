@@ -11,7 +11,7 @@ typedef struct
 	int cant;
 }TData;
 
-TData arreglo;
+TData listaNombres;
 char nuevoName[100];
 
 int volver,seleccion, l;
@@ -57,20 +57,20 @@ int main()
 
 		if (seleccion == 1)
 		{
-			CargarArreglo(&arreglo);
+			CargarArreglo(&listaNombres);
 		} else {
 			if (seleccion == 2)
 			{
-				CargarNuevoNombre(&arreglo);
+				CargarNuevoNombre(&listaNombres);
 			} else {
 				if (seleccion == 3)
-				{ 
+				{
 
-					SuprimirNombre(&arreglo);
+					SuprimirNombre(&listaNombres);
 
 				} else if(seleccion == 4)
 					{
-						Mostrar(arreglo);
+						Mostrar(listaNombres);
 
 					}
 					else if (seleccion == 5)
@@ -182,7 +182,13 @@ void CargarNuevoNombre(TData *nom)
 			printf("Nuevo nombre insertado con exito\n");
 		}
 	} else {
-			printf("No se ha cargado ninguna lista de nombres anteriormente, por ende no se puede Cargar uno nuevo\n");
+		printf("Ingresa el  nombre que quieres insertar: ");
+		fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
+		fgets(nuevoNombre,50,stdin);
+		nom->cant = nom->cant+1;
+		strcpy(nom->nombres[nom->cant-1], nuevoNombre);// el arreglo comienza en 0
+		printf("Nuevo nombre insertado con exito \n");
+
 	}
 }
 
@@ -194,7 +200,7 @@ void CargarNuevoNombre(TData *nom)
 	//Inicio de la funcion
 	    printf("Ingresa la cantidad de nombres que desea cargar: ");
 	    scanf("%d", &j);
- 
+
 	    while(j < 0 || j > 1000){
 		printf("La cantidad de nombres tiene que estar entre 0 y 1000, porfavor ingrese nuevamente la cantidad: ");
 		scanf("%d", &j);
@@ -203,7 +209,7 @@ void CargarNuevoNombre(TData *nom)
 	{
 		printf("No es posible insertar el nuevo nombre ya que el arreglo está lleno \n");
 	} else{
-	    
+
 	    for (int i = 0; i < j; ++i)
 		{
 		printf("Ingresa el  nombre que quieres insertar: ");
