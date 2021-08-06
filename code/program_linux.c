@@ -19,9 +19,6 @@ bool salir;
 	/* Accion Menu */
 void Menu(void);
 
-/* Accion CargarArreglo */
-void CargarArreglo(TData *nom);
-
 /* Accion Vacia */
 bool Vacia(TData nom);
 
@@ -48,7 +45,7 @@ int main()
 		Menu();
 		scanf("%c", &entrada); // Valida Entrada
 		seleccion = atoi(&entrada);
-		while(seleccion < 1 || seleccion > 5 ) {
+		while(seleccion < 1 || seleccion > 4 ) {
 			system("clear");
 			printf("No existe ninguna operacion con ese numero.");
 			Menu();
@@ -57,25 +54,23 @@ int main()
 			seleccion = atoi(&entrada);
 		}
 		if (seleccion == 1) {
-			CargarArreglo(&listaNombres);
+			CargarNuevoNombre(&listaNombres);
 		} else {
 			if (seleccion == 2) {
-				CargarNuevoNombre(&listaNombres);
+				SuprimirNombre(&listaNombres);
 			} else {
 				if (seleccion == 3) {
-					SuprimirNombre(&listaNombres);
-				} else if(seleccion == 4) {
-						Mostrar(listaNombres);
-					}
-					else if (seleccion == 5) {
+					Mostrar(listaNombres);
+				} else if (seleccion == 4) {
 						salir =true;
 					}
 			}
 		}
 
-		if (seleccion != 5)	{
-			printf("Si quiere volver al MENU Presione [Cualquier Numero] * Si quiere SALIR presione [1]: ");
-			scanf("%d", &volver);
+		if (seleccion != 4)	{
+			printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero] ");
+			scanf("%c", &entrada);// Valida Entrada
+			volver = atoi(&entrada);
 			if (volver == 1) {
 				salir =true;
 			}
@@ -83,17 +78,15 @@ int main()
 	};
 	return 0;
 }
-
 //Fin
 
 void Menu(void) {
 	printf("---------------------------------------------------------------------------------- \n");
 	printf("Que quieres hacer? \n");
-	printf("[1] Cargar Nuevo Arreglo. \n");
-	printf("[2] Cargar Nuevo Nombre. \n");
-	printf("[3] Suprimir el primer Nombre. \n");
-	printf("[4] Mostrar lo que contiene el arreglo \n");
-	printf("[5] Salir \n " );
+	printf("[1] Cargar Nuevo Nombre. \n");
+	printf("[2] Suprimir el primer Nombre. \n");
+	printf("[3] Mostrar lo que contiene el arreglo \n");
+	printf("[4] Salir \n " );
 	printf("*INGRESA AQUI EL NUMERO: ");
 }
 
