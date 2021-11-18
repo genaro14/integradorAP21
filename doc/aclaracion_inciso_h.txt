@@ -1,0 +1,8 @@
+AclaraciÃ³n sobre el inciso h) y archivo personas.dat
+
+El inciso h puede interpretarse de dos maneras: 
+1* Guardar la informaciÃ³n del arreglo sobre el mismo archivo personas.dat
+2* Generar un archivo nuevo y guardar en ese la informaciÃ³n modificada
+
+Cada grupo va a poder decidir que criterio utilizar en su proyecto.
+DeberÃ¡n aclarar, como comentario en la cabecera de la acciÃ³n, que mÃ©todo van a usar.
