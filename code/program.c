@@ -1,3 +1,15 @@
+/*
+UNIVERSIDAD NACIONAL DE RÍO CUARTO
+FACULTAD DE CS EXACTAS, FCO-QCAS Y NATURALES - DEPTO DE COMPUTACIÓN
+INTRODUCCIÓN A LA ALGORÍTMICA Y PROGRAMACIÓN
+Año: 2021
+** PROYECTO FINAL **
+ALUMNOS
+BUCHIERI GIOVANNI 
+GIACHERO GABRIEL
+PENNONE GENARO
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,20 +18,43 @@
 #define Max 1000
 typedef char TElem[100];
 
+typedef struct 
+{
+	char nombre[30];
+	int dni;
+	int edad; //(1..80)
+	int borrado; 
+}TPersona
+
+typedef struct 
+{
+	char nombre[30];
+	int dni;
+	int edad; //(1..80)
+}TPers
+
+typedef TArreglo TPers[Max];
+
+
 typedef struct
 {
-	TElem nombres[Max];
-	int cant;
+	TPers info[Max];
+	int cant; // (0..Max)
 }TData;
 
-TData listaNombres;
+typedef struct
+{
+	TArreglo info[Max]
+	TNodo *next
+}TNodo;
+
+TData soporte;
 char nuevoName[100];
 
 int volver,seleccion;
 bool salir;
 
-	/* Accion Menu */
-void Menu(void);
+
 
 /* Accion Vacia */
 int Vacia(TData nom);
@@ -27,14 +62,17 @@ int Vacia(TData nom);
 /* Accion Llena */
 int Llena(TData nom);
 
-/* Accion Cargar Nuevo Nombre */
-void CargarNuevoNombre(TData *nom);
+/* Accion InsertarAlFinal */
+int InsertarAlFinal(TData *per)
 
-	/* Accion SuprimirNombre */
-void SuprimirNombre(TData *nom);
+/* Accion SuprimirNombre */
+void SuprimirPersona(TData *nom);
 
 	/* Accion Mostrar */
 void Mostrar(TData nom);
+
+/* Accion Menu */
+void Menu(void);
 
 //Inicio del algoritmo
 int main()
@@ -57,7 +95,7 @@ int main()
 		} else {
 			if (seleccion == 2)
 			{
-				SuprimirNombre(&listaNombres);
+				SuprimirPersona(&listaNombres);
 			} else {
 				if (seleccion == 3)
 				{
@@ -92,9 +130,9 @@ void Menu(void) {
 	printf("*INGRESA AQUI EL NUMERO: ");
 }
 
-int Vacia(TData nom){
+int Vacia(TData per){
 	//Inicio De La Funcion
-	if (nom.cant == 0)
+	if (per.cant == 0)
 	{
 		return(1);
 	} else {
@@ -102,58 +140,55 @@ int Vacia(TData nom){
 	}
 }
 
-int Llena(TData nom){
+int Llena(TData per){
 	//Inicio De La Funcion
-	if (nom.cant == 1000)
-	{
+	if (per.cant == 1000) {
 		return(1);
 	} else {
 		return(0);
 	}
 }
 
-void CargarNuevoNombre(TData *nom){
+int InsertarAlFinal(TData *per) {
 	//Lexico local
+	TPers persona;
+	char msg[100];
 	char nuevoNombre[100];
 	char cleanBuffer[2];
 	//Inicio de la funcion
-		if (Llena(*nom) )
-		{
+		if (Llena(*per) ) {
 			printf("No es posible insertar el nuevo nombre ya que el arreglo esta lleno \n");
-		} else{
+		} else {
 			printf("Ingresa el nombre que quieres insertar: ");
 			//scanf("%s", nuevoNombre); // Validar entrada de nombres, Cambiar por get
 			fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
 			fgets(nuevoNombre,50,stdin);
 			nom->cant = nom->cant+1;
-			strcpy((*nom).nombres[(*nom).cant-1], nuevoNombre);
-			printf("El nombre: *%s*", ((*nom).nombres[(*nom).cant-1]));
+			strcpy((*per).nombres[(*per).cant-1], nuevoNombre);
+			printf("El nombre: *%s*", ((*per).nombres[(*per).cant-1]));
 			printf("Fue insertado con exito\n");
 		}
 }
 
-void SuprimirNombre(TData *nom){
+void SuprimirPersona(TData *per) {
 	//Inicio de la accion
-	if (!Vacia(*nom))
-		{
-			nom->cant = nom->cant - 1;
-			strcpy(nom->nombres[0], nom->nombres[nom->cant]);
-			printf("Primer Nombre Borrado \n" );
-		} else{
-			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n\n");
-			}
+	if (Vacia(*per->info))
+		{ 
+			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n");
+		} else {
+			strcpy(per->nombres[0], nom->nombres[nom->cant]);
+			per->cant = per->cant - 1;
+			printf("Información suprimida con éxito \n" );
+		}
 }
 
-void Mostrar(TData nom){
+void Mostrar(TData per){
 	//Inicio de la accion
-	// OK // validar vacía
-	if ( !Vacia(nom) ) //chequear en la funcion
+	for (int i = 0; i < per.cant; ++i)
 	{
-		for (int i = 0; i < nom.cant; ++i)
-		{
-			printf("El nombre (%d) es: %s \n", i+1, nom.nombres[i]);
-		}
-	} else{
-		printf("No se puede mostrar el arreglo, porque esta vacio \n");
-		}
+		printf("Nombre: %s \n", per.info[i].nombre);
+		printf("DNI: %s \n", per.info[i].dni);
+		printf("Edad: %s \n", per.info[i].edad);
+	}
+	
 }

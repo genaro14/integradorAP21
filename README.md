@@ -14,6 +14,5 @@ Trabajo Final Introducción a la Algoritmica y Programación 2021
 
 ## Trabajo Final 1er Cuatrimestre
 **Análisis y Diseño:** Carpeta: [doc](https://github.com/genaro14/integradorAP21/tree/main/deprecate_1er_cuat/doc)    
-**Código:**
- * Carpeta: [code](https://github.com/genaro14/integradorAP21/tree/main/deprecate_1er_cuat/code)
+**Código:** Carpeta: [code](https://github.com/genaro14/integradorAP21/tree/main/deprecate_1er_cuat/code)
 
