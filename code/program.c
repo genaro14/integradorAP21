@@ -18,33 +18,27 @@ PENNONE GENARO
 #define Max 1000
 typedef char TElem[100];
 
-typedef struct 
-{
+typedef struct {
 	char nombre[30];
 	int dni;
 	int edad; //(1..80)
 	int borrado; 
 }TPersona;
 
-typedef struct 
-{
+typedef struct {
 	char nombre[30];
 	int dni;
 	int edad; //(1..80)
-}TPers
+}TPers;
 
-typedef TArreglo TPers[Max];
-
-typedef struct
-{
+typedef struct {
 	TPers info[Max];
 	int cant; // (0..Max)
 }TData;
 
-typedef struct
-{
-	TArreglo info[Max]
-	TNodo *next
+typedef struct nodo {
+	 TPers info[Max];
+	struct nodo *next;
 }TNodo;
 
 TData soporte;
@@ -62,52 +56,55 @@ int Vacia(TData nom);
 int Llena(TData nom);
 
 /* Accion InsertarAlFinal */
-int InsertarAlFinal(TData *per)
+int InsertarAlFinal(TData *per);
 
 /* Accion SuprimirNombre */
 void SuprimirPersona(TData *nom);
 
-	/* Accion Mostrar */
+/* Accion Mostrar */
 void Mostrar(TData nom);
 
 /* Accion Cargar desde archivo */
-void Cargar(TData *per, FILE g);
+void Cargar(TData *per, FILE *g);
 
 /* Acción Guardar en el archivo */
-void Guardar (TData *per, FILE f);
+void Guardar (TData per, FILE *f);
 
 /* Acción CargaALista, modulo de la funcon ListaMenores*/
 void CargarALista (TData per,int i/*(0...max)*/,TNodo *aux);
 
 /* Accion Opciones */
 void opciones(void);
-void Swap();
+
+// Intercambio de var
+void Swap(int x, int y, TData *per);
+
 //Inicio del algoritmo
 int main()
-{
+{	Cargar(&soporte,g);
 	salir = false;
 	while(!salir){
-		system("cls");
+		system("clear||cls");
 		opciones();
 		scanf("%d", &seleccion);
 
 		while(seleccion < 1 || seleccion > 4 ){
-			system("cls");
+			system("clear||cls");
 			printf("No existe ninguna operacion con ese numero.");
 			opciones();
 			scanf("%d", &seleccion);
 		}
 		if (seleccion == 1)
 		{
-			CargarNuevoNombre(&listaNombres);
+			InsertarAlFinal(&soporte);
 		} else {
 			if (seleccion == 2)
 			{
-				SuprimirPersona(&listaNombres);
+				SuprimirPersona(&soporte);
 			} else {
 				if (seleccion == 3)
 				{
-					Mostrar(listaNombres);
+					Mostrar(soporte);
 				} else {
 						salir =true;
 					}
@@ -175,20 +172,22 @@ int InsertarAlFinal(TData *per) {
 			//scanf("%s", nuevoNombre); // Validar entrada de nombres, Cambiar por get
 			fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
 			fgets(nuevoNombre,50,stdin);
-			nom->cant = nom->cant+1;
-			strcpy((*per).nombres[(*per).cant-1], nuevoNombre);
-			printf("El nombre: *%s*", ((*per).nombres[(*per).cant-1]));
+			(*per).cant = (*per).cant+1;
+			strcpy((*per).info[(*per).cant-1].nombre, nuevoNombre);
+			printf("El nombre: *%s*", ((*per).info[(*per).cant-1].nombre));
 			printf("Fue insertado con exito\n");
 		}
 }
 
 void SuprimirPersona(TData *per) {
 	//Inicio de la accion
-	if (Vacia(*per->info))
+	if (Vacia(soporte))
 		{ 
 			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n");
-		} else {
-			strcpy(per->nombres[0], nom->nombres[nom->cant]);
+		} else { //falta cant=1
+			strcpy(per->info[0].nombre, per->info[per->cant-1].nombre);
+			per->info[0].dni = per->info[per->cant-1].dni;
+			per->info[0].edad = per->info[per->cant-1].edad;
 			per->cant = per->cant - 1;
 			printf("Información suprimida con éxito \n" );
 		}
@@ -196,11 +195,13 @@ void SuprimirPersona(TData *per) {
 
 void Mostrar(TData per){
 	//Inicio de la accion
+	// TEST & DEBUG// 
+	printf("cant: %d \n",per.cant);
 	for (int i = 0; i < per.cant; ++i)
 	{
 		printf("Nombre: %s \n", per.info[i].nombre);
-		printf("DNI: %s \n", per.info[i].dni);
-		printf("Edad: %s \n", per.info[i].edad);
+		printf("DNI: %d \n", per.info[i].dni);
+		printf("Edad: %d \n", per.info[i].edad);
 	}
 	
 }
@@ -211,20 +212,21 @@ void Cargar (TData *per, FILE *g){
 	int i=0;
 	//inicio de la accion
 	if ((g = fopen("personas.dat","rb")) == NULL){
-       printf("Error! opening file");
-	   break;
+       printf("Error al abrir archivo");
+	   exit;
    	}
 
-   	while(!feof(g)) {    
-    	fread(&aux, sizeof(TPersona), 1, g); 
+   	while(fread(&aux, sizeof(TPersona), 1, g) > 0) {    
+		// DEBUG & TEST //printf("nombre: %s\t dni: %d\tedad: %d\t borrado: %d\n", aux.nombre, aux.dni, aux.edad, aux.borrado);
 		if (aux.borrado == 0){
     	strcpy ((*per).info[i].nombre, aux.nombre);
 		(*per).info[i].edad = aux.edad;
 		(*per).info[i].dni = aux.dni;
-		i = i++;
-		} //Bug Repite último
+		++i;
+		} 
    }
 	per->cant = i;
+	// DEBUG & TEST //printf("cant: %d\n",per->cant);
 	fclose(g);
 }
 
@@ -235,7 +237,7 @@ void Guardar(TData per, FILE* f){
 	//Inicio
 	if ((f = fopen("personas.dat","w")) == NULL){
        printf("Error! opening file");
-	   break;
+	   exit;
    	}
 
 	while(i <= per.cant){
@@ -257,30 +259,39 @@ void CargarALista (TData per,int i,TNodo *aux){
 	TNodo *x;
 	//inicio de la accion
 	x = (TNodo *) malloc (sizeof(TNodo));
-	stcpy((*x).info.nombre, per.info[i].nombre);
-	(*x).info.edad = per.info[i].edad;;
-	(*x).info.dni = per.info[i].dni;;
-	(*x).next = aux;
+	stpcpy(x->info->nombre, per.info[i].nombre);
+	x->info->edad = per.info[i].edad;;
+	x->info->dni = per.info[i].dni;;
+	x->next = aux;
 	aux = x;
 }	
 
-// hacer swap
 
+void Swap(int x, int y, TData *per){
+TPers temp;
+temp = per->info[x];
+per->info[x] = per->info[y];
+per->info[y] = temp;
+// strcpy(temp.nombre, per->info[x]->nombre);
+// temp.edad = per->info[x]->edad;
+// temp.dni = per->info[x]->dni;
+
+}
 /* ORDENAMIENTO BURBUJA POR DNI*/
 void OrdBurbuja(TData *per){
 	//Lexico Local
 	int i, j, term;
 
 	//Inicio
-	i = (*pers).cant - 1;
+	i = (*per).cant - 1;
 	term = 1;
 	while(i > 0 && term!= 0){
 		j = 0;
 		term = 0;
 		while(j < i) {
-			if ((*pers).info[j].dni > (*pers).info[j+1].dni)
+			if ((*per).info[j].dni > (*per).info[j+1].dni)
 			{
-				Swap(j, j+, &(*per));
+				Swap(j, j+1, per);
 				term = ++term;
 			}
 			j = ++j;

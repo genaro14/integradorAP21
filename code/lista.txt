@@ -1,0 +1,13 @@
+1. nombre: Abril	 dni: 31995121	edad: 25	 borrado: 0
+2. nombre: Martin	 dni: 32115467	edad: 30	 borrado: 0
+3. nombre: Brisa	 dni: 30998123	edad: 28	 borrado: 1
+4. nombre: Daniel	 dni: 27544966	edad: 25	 borrado: 0
+5. nombre: Agustin	 dni: 27988469	edad: 25	 borrado: 0
+6. nombre: Carla	 dni: 34899124	edad: 32	 borrado: 0
+7. nombre: Francisco	 dni: 32455766	edad: 30	 borrado: 1
+8. nombre: Emelyn	 dni: 24956111	edad: 22	 borrado: 0
+9. nombre: Marcos	 dni: 36741852	edad: 34	 borrado: 0
+10. nombre: Lucia	 dni: 28999125	edad: 26	 borrado: 0
+Total: 10
+Borrado: 2
+No Borrado: 8

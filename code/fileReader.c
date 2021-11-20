@@ -43,5 +43,5 @@ int n;
     printf("nombre: %s\t dni: %d\tedad: %d\n", test.nombre, test.dni, test.edad);
    }
     
-
- }
+}
+ 
