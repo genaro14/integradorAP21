@@ -24,7 +24,7 @@ typedef struct
 	int dni;
 	int edad; //(1..80)
 	int borrado; 
-}TPersona
+}TPersona;
 
 typedef struct 
 {
@@ -34,7 +34,6 @@ typedef struct
 }TPers
 
 typedef TArreglo TPers[Max];
-
 
 typedef struct
 {
@@ -53,8 +52,8 @@ char nuevoName[100];
 
 int volver,seleccion;
 bool salir;
-
-
+FILE *g;
+FILE *f;
 
 /* Accion Vacia */
 int Vacia(TData nom);
@@ -71,22 +70,31 @@ void SuprimirPersona(TData *nom);
 	/* Accion Mostrar */
 void Mostrar(TData nom);
 
-/* Accion Menu */
-void Menu(void);
+/* Accion Cargar desde archivo */
+void Cargar(TData *per, FILE g);
 
+/* Acción Guardar en el archivo */
+void Guardar (TData *per, FILE f);
+
+/* Acción CargaALista, modulo de la funcon ListaMenores*/
+void CargarALista (TData per,int i/*(0...max)*/,TNodo *aux);
+
+/* Accion Opciones */
+void opciones(void);
+void Swap();
 //Inicio del algoritmo
 int main()
 {
 	salir = false;
 	while(!salir){
 		system("cls");
-		Menu();
+		opciones();
 		scanf("%d", &seleccion);
 
 		while(seleccion < 1 || seleccion > 4 ){
 			system("cls");
 			printf("No existe ninguna operacion con ese numero.");
-			Menu();
+			opciones();
 			scanf("%d", &seleccion);
 		}
 		if (seleccion == 1)
@@ -120,13 +128,17 @@ int main()
 }
 //Fin
 
-void Menu(void) {
-	printf("---------------------------------------------------------------------------------- \n");
-	printf("Que quieres hacer? \n");
-	printf("[1] Cargar Nuevo Nombre. \n");
-	printf("[2] Suprimir el primer Nombre. \n");
-	printf("[3] Mostrar lo que contiene el arreglo \n");
-	printf("[4] Salir \n " );
+void opciones(void) {
+	printf("MENU DE OPCIONES \n");
+	printf("------------------\n");
+	printf("[1] Insetar al final \n");
+	printf("[2] Suprimir el primero \n");
+	printf("[3] Mostrar todos \n");
+	printf("[4] Mostrar Menores \n");
+	printf("[5] Buscar por DNI \n");
+	printf("[6] Mayores Al Primero \n");
+	printf("[7] Edad Mayor \n");
+	printf("[0] Salir y Guardar \n " );
 	printf("*INGRESA AQUI EL NUMERO: ");
 }
 
@@ -191,4 +203,89 @@ void Mostrar(TData per){
 		printf("Edad: %s \n", per.info[i].edad);
 	}
 	
+}
+
+void Cargar (TData *per, FILE *g){
+	//lexico local
+	TPersona aux;
+	int i=0;
+	//inicio de la accion
+	if ((g = fopen("personas.dat","rb")) == NULL){
+       printf("Error! opening file");
+	   break;
+   	}
+
+   	while(!feof(g)) {    
+    	fread(&aux, sizeof(TPersona), 1, g); 
+		if (aux.borrado == 0){
+    	strcpy ((*per).info[i].nombre, aux.nombre);
+		(*per).info[i].edad = aux.edad;
+		(*per).info[i].dni = aux.dni;
+		i = i++;
+		} //Bug Repite último
+   }
+	per->cant = i;
+	fclose(g);
+}
+
+void Guardar(TData per, FILE* f){
+	//Lexico Local
+	int i = 0;
+	TPersona aux;
+	//Inicio
+	if ((f = fopen("personas.dat","w")) == NULL){
+       printf("Error! opening file");
+	   break;
+   	}
+
+	while(i <= per.cant){
+
+		strcpy(aux.nombre, per.info[i].nombre);
+		aux.edad = per.info[i].edad;
+		aux.dni = per.info[i].dni;
+		aux.borrado = 0;
+		fwrite(&aux,sizeof(TPersona),1,f);
+		//fflush(stdin); //limpia buffer
+		i = i++;
+	}
+
+	fclose(f);
+}
+
+void CargarALista (TData per,int i,TNodo *aux){
+	//lexico local
+	TNodo *x;
+	//inicio de la accion
+	x = (TNodo *) malloc (sizeof(TNodo));
+	stcpy((*x).info.nombre, per.info[i].nombre);
+	(*x).info.edad = per.info[i].edad;;
+	(*x).info.dni = per.info[i].dni;;
+	(*x).next = aux;
+	aux = x;
+}	
+
+// hacer swap
+
+/* ORDENAMIENTO BURBUJA POR DNI*/
+void OrdBurbuja(TData *per){
+	//Lexico Local
+	int i, j, term;
+
+	//Inicio
+	i = (*pers).cant - 1;
+	term = 1;
+	while(i > 0 && term!= 0){
+		j = 0;
+		term = 0;
+		while(j < i) {
+			if ((*pers).info[j].dni > (*pers).info[j+1].dni)
+			{
+				Swap(j, j+, &(*per));
+				term = ++term;
+			}
+			j = ++j;
+
+		}
+		i = i - 1;
+	}
 }
