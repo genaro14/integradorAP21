@@ -14,6 +14,7 @@ PENNONE GENARO
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include<unistd.h>
 
 #define Max 1000
 typedef char TElem[100];
@@ -79,48 +80,19 @@ void opciones(void);
 // Intercambio de var
 void Swap(int x, int y, TData *per);
 
-//Inicio del algoritmo
-int main()
-{	Cargar(&soporte,g);
-	salir = false;
-	while(!salir){
-		system("clear||cls");
-		opciones();
-		scanf("%d", &seleccion);
+//SANITY CHECK
+int SanityCheck() ;
+//MENU
+int Menu(void);
 
-		while(seleccion < 1 || seleccion > 4 ){
-			system("clear||cls");
-			printf("No existe ninguna operacion con ese numero.");
-			opciones();
-			scanf("%d", &seleccion);
-		}
-		if (seleccion == 1)
-		{
-			InsertarAlFinal(&soporte);
-		} else {
-			if (seleccion == 2)
-			{
-				SuprimirPersona(&soporte);
-			} else {
-				if (seleccion == 3)
-				{
-					Mostrar(soporte);
-				} else {
-						salir =true;
-					}
-			}
-		}
 
-		if (seleccion != 4)
-		{
-			printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero]");
-			scanf("%d", &volver);
-			if (volver == 1)
-			{
-				salir =true;
-			}
-		}
-	};
+int main() {	
+	if(SanityCheck()){
+		Cargar(&soporte,g);
+		Menu();
+	} else{
+		exit(1);
+	}
 	return 0;
 }
 //Fin
@@ -212,7 +184,7 @@ void Cargar (TData *per, FILE *g){
 	int i=0;
 	//inicio de la accion
 	if ((g = fopen("personas.dat","rb")) == NULL){
-       printf("Error al abrir archivo");
+       printf("Archivo vacío");
 	   exit;
    	}
 
@@ -300,3 +272,54 @@ void OrdBurbuja(TData *per){
 		i = i - 1;
 	}
 }
+int Menu(void){
+	salir = false;
+	while(!salir){
+		system("clear||cls");
+		opciones();
+		scanf("%d", &seleccion);
+
+		while(seleccion < 1 || seleccion > 4 ){
+			system("clear||cls");
+			printf("No existe ninguna operacion con ese numero.");
+			opciones();
+			scanf("%d", &seleccion);
+		}
+		if (seleccion == 1)
+		{
+			InsertarAlFinal(&soporte);
+		} else {
+			if (seleccion == 2)
+			{
+				SuprimirPersona(&soporte);
+			} else {
+				if (seleccion == 3)
+				{
+					Mostrar(soporte);
+				} else {
+						salir =true;
+					}
+			}
+		}
+
+		if (seleccion != 4)
+		{
+			printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero]");
+			scanf("%d", &volver);
+			if (volver == 1)
+			{
+				salir =true;
+			}
+		}
+	};
+}
+int SanityCheck() {	
+	char *filename = "personas.dat";
+	 if( access( filename, F_OK ) == 0){ 
+        printf("%s ,Archivo encontrado \n",filename);   
+        return 1;
+	}else if( access( filename, F_OK ) == -1) {
+		printf("El archivo  %s no existe, no puede continuar \n", filename);
+		return 0;
+	} 
+} // END SANITY CHECK
