@@ -118,8 +118,8 @@ int main() {
 //Parte del Inciso M
 /* Accion Que Muestra las Opciones del Menu */
 void opciones(void) {
-	printf("MENU DE OPCIONES \n");
-	printf("------------------\n");
+	printf("\t\tMENU de Opciones\n");
+    	printf("\t\t----------------\n\n");
 	printf("[1] Insetar al final \n");
 	printf("[2] Suprimir el primero \n");
 	printf("[3] Mostrar todos \n");
