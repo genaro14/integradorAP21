@@ -89,7 +89,6 @@ void BusquedaDNI(TData per, int dni);
 /* Funcion que informa si existen al menos 3 personas mayores que la primera. "1" Verdadero - "0" Falso */
 int mayoresQueElPrimero(TData per);
 
-
 /* Funcion recursiva que devuelve la info de la persona con mayor edad del arreglo */
 TPers edadMayor(TData per, int cant, TPers aux);
 
@@ -207,7 +206,8 @@ void Cargar (TData *per, FILE *g){
    	}
 
    	while(fread(&aux, sizeof(TPersona), 1, g) > 0) {    
-		// DEBUG & TEST //printf("nombre: %s\t dni: %d\tedad: %d\t borrado: %d\n", aux.nombre, aux.dni, aux.edad, aux.borrado);
+		// TEST & DEBUG 
+		//printf("nombre: %s\t dni: %d\tedad: %d\t borrado: %d\n", aux.nombre, aux.dni, aux.edad, aux.borrado);
 		if (aux.borrado == 0){
     	strcpy ((*per).info[i].nombre, aux.nombre);
 		(*per).info[i].edad = aux.edad;
@@ -216,7 +216,7 @@ void Cargar (TData *per, FILE *g){
 		} 
    }
 	per->cant = i;
-	// DEBUG & TEST //printf("cant: %d\n",per->cant);
+	// TEST & DEBUG //printf("cant: %d\n",per->cant);
 	fclose(g);
 }
 
@@ -387,6 +387,7 @@ TPers edadMayor(TData per, int cant, TPers aux){
 
 int Menu(void){ //pasar VAR
 	char msg[26];
+	char msgVacio[56];
 	TNodo *listaM;
 	salir = false;
 	int BusquedaDNI;
@@ -394,7 +395,7 @@ int Menu(void){ //pasar VAR
 		
 		opciones();
 		scanf("%d", &seleccion);
-		while(seleccion < 1 || seleccion > 7 ){
+		while(seleccion < 0 || seleccion > 7 ){
 			system("clear||cls");
 			printf("No existe ninguna operacion con ese numero. \n");
 			opciones();
@@ -406,13 +407,12 @@ int Menu(void){ //pasar VAR
 			// TEST & DEBUG //
 			printf("Insertar al final \n");		
 			InsertarAlFinal(&soporte);
-			
 		} 
 		else if (seleccion == 2)
 			{
 			system("clear||cls");
 			// TEST & DEBUG //
-			printf("SuprimirPersona \n");		
+			printf("SuprimirPersona, primer elemento \n");		
 			SuprimirPersona(&soporte);
 			} 
 		else if (seleccion == 3)
@@ -478,15 +478,29 @@ int Menu(void){ //pasar VAR
 			printf("EdadMayor \n");
 			if (!Vacia(soporte)) 
 			{
-				//OrdenarDNI(soporte);
-				// Entrada: dni
-				//BusquedaDNI(soporte, buscarDni);
+				/// </> código
 			} else 
 			{
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
 		}
+		else if (seleccion == 0)
+		{
+			system("clear||cls");
+			// TEST & DEBUG //
+			printf("Guardar y Salir \n");
+			if (!Vacia(soporte)) 
+			{
+				/// </> código Guardar y salir
+			} else 
+			{
+				strcpy(msgVacio, "El Arreglo está vacío, seguro que quiere guardar? \n");
+				/// </> código Guardar y salir
+				printf("%s", msgVacio);
+			}
+		}
+		
 		// else if (seleccion > 7 || seleccion < 0)
 		// {
 		// 	printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero]");
