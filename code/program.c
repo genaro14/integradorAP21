@@ -71,28 +71,37 @@ void Cargar(TData *per, FILE *g);
 /* Acción Guardar en el archivo */
 void Guardar (TData per, FILE *f);
 
-/* Accion Opciones */
-void opciones(void);
+/* Acción CargaALista, modulo de la funcion ListaMenores*/
+void CargarALista (TData per,int i/*(0...max)*/,TNodo **aux);
 
-// Intercambio de var
+/* Funcion Recursiva que crea una lista con los menores de Edad*/
+TNodo* ListaMenores(TData per, int cant, TNodo *lis);
+
+/* Accion que muestra la lista creada con la funcion "ListaMenores" */
+void MostrarMenores(TNodo *lis);
+
+/* Accion Intercambiar (utilizada en "OrdenarDni") */ 
 void Swap(int x, int y, TData *per);
 
 /* Accion Ordenar El Arreglo Por DNI */
 void OrdenarDNI (TData *per);
 
-/* Accion buscar DNI */
+/* Accion Busqueda Dicotomica de DNI*/
 void BusquedaDNI(TData per, int dni);
 
-/* Funcion que informa si existen al menos 3 personas mayores que la primera. "1" Verdadero - "0" Falso */
+/* Funcion indica si hay 3 personas mayores a la primera */
 int mayoresQueElPrimero(TData per);
 
-/* Funcion recursiva que devuelve la info de la persona con mayor edad del arreglo */
+
+/* Funcion Recurviva indica la persona mayor del arreglo */
 TPers edadMayor(TData per, int cant, TPers aux);
 
-//SANITY CHECK
-int SanityCheck() ;
-//MENU
+/* Accion Opciones */
+void opciones(void);
+/* Menu  */
 int Menu(void);
+/* SANITY CHECK */
+int SanityCheck();
 
 
 int main() {	
@@ -106,6 +115,8 @@ int main() {
 }
 //Fin
 
+//Parte del Inciso M
+/* Accion Que Muestra las Opciones del Menu */
 void opciones(void) {
 	printf("MENU DE OPCIONES \n");
 	printf("------------------\n");
@@ -120,6 +131,8 @@ void opciones(void) {
 	printf("*INGRESA AQUI EL NUMERO: ");
 }
 
+//Inciso A
+/* Funcion Informa Si EL Arreglo esta Vacio */
 int Vacia(TData per){
 	//Inicio De La Funcion
 	if (per.cant == 0)
@@ -130,6 +143,8 @@ int Vacia(TData per){
 	}
 }
 
+//Inciso B
+/* Funcion Informa Si EL Arreglo esta Lleno */
 int Llena(TData per){
 	//Inicio De La Funcion
 	if (per.cant == 1000) {
@@ -139,6 +154,8 @@ int Llena(TData per){
 	}
 }
 
+//Inciso C
+/* Accion Agrega Informacion de una Persona Al Final Del Arreglo */
 int InsertarAlFinal(TData *per) {
 	//Lexico local
 	TPers persona;
@@ -165,6 +182,8 @@ int InsertarAlFinal(TData *per) {
 		}
 }
 
+//Inciso D
+/* Accion Suprime Primera Persona Del Arreglo */
 void SuprimirPersona(TData *per) {
 	//Inicio de la accion
 	if (Vacia(soporte))
@@ -179,6 +198,8 @@ void SuprimirPersona(TData *per) {
 		}
 }
 
+//Inciso E
+/* Accion Mostrar El Arreglo */
 void Mostrar(TData per){
 	//Inicio de la accion
 	// TEST & DEBUG// 
@@ -188,10 +209,11 @@ void Mostrar(TData per){
 		printf("Nombre: %s \n", per.info[i].nombre);
 		printf("DNI: %d \n", per.info[i].dni);
 		printf("Edad: %d \n", per.info[i].edad);
-	}
-	
+	}	
 }
 
+//Inciso G
+/* Accion Cargar Arreglo */
 void Cargar (TData *per, FILE *g){
 	//lexico local
 	TPersona aux;
@@ -217,6 +239,9 @@ void Cargar (TData *per, FILE *g){
 	fclose(g);
 }
 
+
+//Inciso H
+/* Accion Guardar Arreglo en el Archivo */
 void Guardar(TData per, FILE* f){
 	//Lexico Local
 	int i = 0;
@@ -254,7 +279,7 @@ void CargarALista (TData per,int i,TNodo **aux){
 	(*aux) = x;
 }
 
-
+//Inciso I
 /* Funcion recursiva que crea una lista con la informacion de los menores de edad*/
 TNodo* ListaMenores(TData per, int cant, TNodo *lis){
 	//Inicio
@@ -312,6 +337,7 @@ per->info[y] = temp;
 
 }
 
+//Inciso J
 /* ORDENAMIENTO BURBUJA POR DNI*/
 void OrdenarDNI (TData *per){
 	//Lexico Local
@@ -428,7 +454,7 @@ TPers edadMayor(TData per, int cant, TPers aux){
 	}
 }
 
-
+//Inciso M
 int Menu(void){ //pasar VAR
 	char msg[26];
 	char msgVacio[56];
