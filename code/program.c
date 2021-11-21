@@ -71,9 +71,6 @@ void Cargar(TData *per, FILE *g);
 /* Acción Guardar en el archivo */
 void Guardar (TData per, FILE *f);
 
-/* Acción CargaALista, modulo de la funcon ListaMenores*/
-void CargarALista (TData per,int i/*(0...max)*/,TNodo *aux);
-
 /* Accion Opciones */
 void opciones(void);
 
@@ -244,7 +241,8 @@ void Guardar(TData per, FILE* f){
 	fclose(f);
 }
 
-void CargarALista (TData per,int i,TNodo *aux){
+/* Accion Que Permite la carga de la informacion de los menores a la cabeza de la lista*/
+void CargarALista (TData per,int i,TNodo **aux){
 	//lexico local
 	TNodo *x;
 	//inicio de la accion
@@ -252,9 +250,55 @@ void CargarALista (TData per,int i,TNodo *aux){
 	strcpy(x->info->nombre, per.info[i].nombre);
 	x->info->edad = per.info[i].edad;;
 	x->info->dni = per.info[i].dni;;
-	x->next = aux;
-	aux = x;
-}	
+	x->next = (*aux);
+	(*aux) = x;
+}
+
+
+/* Funcion recursiva que crea una lista con la informacion de los menores de edad*/
+TNodo* ListaMenores(TData per, int cant, TNodo *lis){
+	//Inicio
+	if (cant == 0)
+	{
+		return(lis);
+	} else {
+		if (cant > 0)
+		{
+			if (per.info[cant-1].edad < 18)
+			{
+				CargarALista(per, cant-1, &lis);
+				return(ListaMenores(per,cant-1, lis));
+			} else {
+				return(ListaMenores(per,cant-1, lis));
+			}
+		}
+	}
+
+}
+
+
+/* Accion que informa por pantalla la lista formada por los menores de edad*/
+void MostrarMenores(TNodo *lis){
+	//Lexico Local
+	//Inicio
+	if (lis == NULL)
+	{
+		printf("La lista esta vacia \n");
+	}else{
+		if (lis != NULL)
+		{
+			printf("\t Lista de los menores de Edad: ");
+			while(lis != NULL){
+				printf("\t* Nombre: %s\n",(*lis).info->nombre);   //printf("%s\n",lis->info->nombre);
+				printf("\t* Edad: %d\n",(*lis).info->edad); 	 //printf("%d\n",lis->info->edad);
+				printf("\t* DNI: %d\n\n\n",(*lis).info->dni);     //printf("%d\n",lis->info->dni);
+				lis = lis->next;
+
+			};
+		}
+	}
+}
+	
 
 
 void Swap(int x, int y, TData *per){
