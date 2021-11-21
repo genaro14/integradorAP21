@@ -152,9 +152,10 @@ int InsertarAlFinal(TData *per) {
 			printf("No es posible insertar el nuevo nombre ya que el arreglo esta lleno \n");
 		} else {
 			printf("Ingresa el nombre que quieres insertar: ");
-			//scanf("%s", nuevoNombre); // Validar entrada de nombres, Cambiar por get
 			fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
 			fgets(persona.nombre,30,stdin);
+			int size = strlen(persona.nombre); //Total size of string persona.nombre
+			persona.nombre[size-1] = '\0'; // Replace '\n' for '\0', line Ending
 			printf("Ingresa la edad: ");
 			scanf("%d", &persona.edad);
 			printf("Ingresa El DNI: ");
@@ -384,46 +385,119 @@ TPers edadMayor(TData per, int cant, TPers aux){
 }
 
 
-int Menu(void){
+int Menu(void){ //pasar VAR
+	char msg[26];
+	TNodo *listaM;
 	salir = false;
+	int BusquedaDNI;
 	while(!salir){
-		system("clear||cls");
+		
 		opciones();
 		scanf("%d", &seleccion);
-
-		while(seleccion < 1 || seleccion > 4 ){
+		while(seleccion < 1 || seleccion > 7 ){
 			system("clear||cls");
-			printf("No existe ninguna operacion con ese numero.");
+			printf("No existe ninguna operacion con ese numero. \n");
 			opciones();
 			scanf("%d", &seleccion);
 		}
 		if (seleccion == 1)
 		{
+			system("clear||cls");
+			// TEST & DEBUG //
+			printf("Insertar al final \n");		
 			InsertarAlFinal(&soporte);
-		} else {
-			if (seleccion == 2)
+			
+		} 
+		else if (seleccion == 2)
 			{
-				SuprimirPersona(&soporte);
-			} else {
-				if (seleccion == 3)
+			system("clear||cls");
+			// TEST & DEBUG //
+			printf("SuprimirPersona \n");		
+			SuprimirPersona(&soporte);
+			} 
+		else if (seleccion == 3)
+			{	
+				system("clear||cls");
+				// TEST & DEBUG //
+				printf("Mostrar \n");		
+				Mostrar(soporte);
+			} 
+		else if (seleccion == 4)
+			{
+				system("clear||cls");
+				// TEST & DEBUG //
+				printf("ListaMenores y MostrarMenores \n");
+				if (!Vacia(soporte)) 
 				{
-					Mostrar(soporte);
-				} else {
-						salir =true;
-					}
+			
+					listaM = NULL;
+					// listaM = ListaMenores(soporte, soporte.cant, listaM)
+					// MostrarMenores(listaM);
+				} else 
+				{
+					strcpy(msg, "El Arreglo está vacío \n");
+					printf("%s", msg);
+				}
 			}
-		}
-
-		if (seleccion != 4)
+		else if (seleccion == 5)
 		{
-			printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero]");
-			scanf("%d", &volver);
-			if (volver == 1)
+			system("clear||cls");
+				//OrdenarDNI(soporte);
+				// TEST & DEBUG //
+				printf("BúsquedaDNI \n");
+			if (!Vacia(soporte)) 
+			{	
+				// Entrada: dni
+				//BusquedaDNI(soporte, buscarDni);
+			} else 
 			{
-				salir =true;
+				strcpy(msg, "El Arreglo está vacío \n");
+				printf("%s", msg);
 			}
 		}
+		else if (seleccion == 6)
+		{ 
+			system("clear||cls");
+			// TEST & DEBUG //
+			printf("MayoresQue el primero \n");
+			if (!Vacia(soporte)) 
+			{
+				//OrdenarDNI(soporte);
+				// Entrada: dni
+				//BusquedaDNI(soporte, buscarDni);
+			} else 
+			{
+				strcpy(msg, "El Arreglo está vacío \n");
+				printf("%s", msg);
+			}
+		}
+		else if (seleccion == 7)
+		{
+			system("clear||cls");
+			// TEST & DEBUG //
+			printf("EdadMayor \n");
+			if (!Vacia(soporte)) 
+			{
+				//OrdenarDNI(soporte);
+				// Entrada: dni
+				//BusquedaDNI(soporte, buscarDni);
+			} else 
+			{
+				strcpy(msg, "El Arreglo está vacío \n");
+				printf("%s", msg);
+			}
+		}
+		// else if (seleccion > 7 || seleccion < 0)
+		// {
+		// 	printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero]");
+		// 	scanf("%d", &volver);
+		// 	if (volver == 1)
+		// 	{
+		// 		salir =true;
+		// 	}
+		// }
 	};
+	
 }
 int SanityCheck() {	
 	char *filename = "personas.dat";
