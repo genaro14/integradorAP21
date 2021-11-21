@@ -154,7 +154,7 @@ int InsertarAlFinal(TData *per) {
 			printf("Ingresa el nombre que quieres insertar: ");
 			//scanf("%s", nuevoNombre); // Validar entrada de nombres, Cambiar por get
 			fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
-			fgets(persona.nombre,50,stdin);
+			fgets(persona.nombre,30,stdin);
 			printf("Ingresa la edad: ");
 			scanf("%d", &persona.edad);
 			printf("Ingresa El DNI: ");
