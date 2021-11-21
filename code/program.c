@@ -80,6 +80,19 @@ void opciones(void);
 // Intercambio de var
 void Swap(int x, int y, TData *per);
 
+/* Accion Ordenar El Arreglo Por DNI */
+void OrdenarDNI (TData *per);
+
+/* Accion buscar DNI */
+void BusquedaDNI(TData per, int dni);
+
+/* Funcion que informa si existen al menos 3 personas mayores que la primera. "1" Verdadero - "0" Falso */
+int mayoresQueElPrimero(TData per);
+
+
+/* Funcion recursiva que devuelve la info de la persona con mayor edad del arreglo */
+TPers edadMayor(TData per, int cant, TPers aux);
+
 //SANITY CHECK
 int SanityCheck() ;
 //MENU
@@ -133,8 +146,6 @@ int Llena(TData per){
 int InsertarAlFinal(TData *per) {
 	//Lexico local
 	TPers persona;
-	char msg[100];
-	char nuevoNombre[100];
 	char cleanBuffer[2];
 	//Inicio de la funcion
 		if (Llena(*per) ) {
@@ -143,11 +154,16 @@ int InsertarAlFinal(TData *per) {
 			printf("Ingresa el nombre que quieres insertar: ");
 			//scanf("%s", nuevoNombre); // Validar entrada de nombres, Cambiar por get
 			fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
-			fgets(nuevoNombre,50,stdin);
+			fgets(persona.nombre,50,stdin);
+			printf("Ingresa la edad: ");
+			scanf("%d", &persona.edad);
+			printf("Ingresa El DNI: ");
+			scanf("%d", &persona.dni);
 			(*per).cant = (*per).cant+1;
-			strcpy((*per).info[(*per).cant-1].nombre, nuevoNombre);
-			printf("El nombre: *%s*", ((*per).info[(*per).cant-1].nombre));
-			printf("Fue insertado con exito\n");
+			strcpy((*per).info[(*per).cant-1].nombre, persona.nombre);
+			(*per).info[(*per).cant-1].edad = persona.edad;
+			(*per).info[(*per).cant-1].dni = persona.dni;
+			printf("La Persona Fue insertado con exito\n");
 		}
 }
 
@@ -231,7 +247,7 @@ void CargarALista (TData per,int i,TNodo *aux){
 	TNodo *x;
 	//inicio de la accion
 	x = (TNodo *) malloc (sizeof(TNodo));
-	stpcpy(x->info->nombre, per.info[i].nombre);
+	strcpy(x->info->nombre, per.info[i].nombre);
 	x->info->edad = per.info[i].edad;;
 	x->info->dni = per.info[i].dni;;
 	x->next = aux;
@@ -249,8 +265,9 @@ per->info[y] = temp;
 // temp.dni = per->info[x]->dni;
 
 }
+
 /* ORDENAMIENTO BURBUJA POR DNI*/
-void OrdBurbuja(TData *per){
+void OrdenarDNI (TData *per){
 	//Lexico Local
 	int i, j, term;
 
@@ -272,6 +289,100 @@ void OrdBurbuja(TData *per){
 		i = i - 1;
 	}
 }
+
+/* Busqueda Dicotomica de un DNI */ 
+void BusquedaDNI(TData per, int dni){
+	//Lexico Local
+	int k, inf, sup;
+	//Inicio
+	if (dni < per.info[0].dni || dni > per.info[per.cant-1].dni)
+	{
+		printf("El elemento no existe en el arreglo");
+	}else{
+		if (per.info[0].dni <= dni && dni <= per.info[per.cant-1].dni)
+		{
+			inf = 0;
+			sup = per.cant-1;
+			while(inf < sup){
+				k = (inf+sup)/2;
+				if (dni > per.info[k].dni)
+				{
+					inf = k+1;
+				} else {
+					if (dni <= per.info[k].dni)
+					{
+						sup = k;
+					}
+				}
+			};
+			if (per.info[inf].dni == dni)
+			{
+				printf("\n\n Se ha encontrado la persona con ese DNI:\n\n");
+				printf("\t* Nombre: %s\n",per.info[inf].nombre);
+				printf("\t* Edad: %d\n",per.info[inf].edad);
+				printf("\t* DNI: %d\n",per.info[inf].dni);
+			} else {
+
+				printf("No se ha encontrado a la persona con ese DNI.\n\n");
+			}
+		}
+	}
+}
+
+//INCISO K
+/* Funcion que informa si existen al menos 3 personas mayores que el primero */
+int mayoresQueElPrimero(TData per){
+	//Lexico Local
+	int i, cantMayor, edad, pri;
+	//Inicio
+	i = 0;
+	cantMayor = 0;
+	pri = per.info[i].edad;
+	i = ++i;
+	while(i<per.cant && cantMayor<3){
+		if (per.info[i].edad > pri)
+		{
+			cantMayor = cantMayor+1;
+		}
+		i = ++i;
+	}
+	if (i<per.cant)
+	{
+		return(1);
+	} else {
+		if (i = per.cant)
+		{
+			if (cantMayor < 3)
+			{
+				return(0);
+			}
+		}
+	}
+
+}
+
+
+//Inciso L
+TPers edadMayor(TData per, int cant, TPers aux){
+	//Inicio
+	if (cant == 0)
+	{
+		return(aux);
+	} else {
+		if (cant > 0)
+		{
+			if (aux.edad < per.info[cant].edad)
+			{
+				strcpy(aux.nombre, per.info[cant].nombre);
+				aux.dni = per.info[cant].dni;
+				aux.edad = per.info[cant].edad;
+			}
+			return(edadMayor(per,cant-1,aux));
+		}
+	}
+}
+
+
 int Menu(void){
 	salir = false;
 	while(!salir){
