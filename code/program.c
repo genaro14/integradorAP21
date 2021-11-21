@@ -160,9 +160,10 @@ int InsertarAlFinal(TData *per) {
 			printf("Ingresa El DNI: ");
 			scanf("%d", &persona.dni);
 			(*per).cant = (*per).cant+1;
-			strcpy((*per).info[(*per).cant-1].nombre, persona.nombre);
-			(*per).info[(*per).cant-1].edad = persona.edad;
-			(*per).info[(*per).cant-1].dni = persona.dni;
+			(*per).info[(*per).cant-1] = persona;
+			//strcpy((*per).info[(*per).cant-1].nombre, persona.nombre);
+			//(*per).info[(*per).cant-1].edad = persona.edad;
+			//(*per).info[(*per).cant-1].dni = persona.dni;
 			printf("La Persona Fue insertado con exito\n");
 		}
 }
