@@ -462,7 +462,7 @@ int Menu(void){ //pasar VAR
 	char msgVacio[56];
 	TNodo *listaM;
 	salir = false;
-	int BusquedaDNI;
+	int buscarDNI;
 	while(!salir){
 		
 		opciones();
@@ -518,8 +518,9 @@ int Menu(void){ //pasar VAR
 				printf("BúsquedaDNI \n");
 			if (!Vacia(soporte)) 
 			{	
-				// Entrada: dni
-				//BusquedaDNI(soporte, buscarDni);
+				printf("DNI: ");
+				scanf("%d",&buscarDNI);		
+				BusquedaDNI(soporte, buscarDNI);
 			} else 
 			{
 				strcpy(msg, "El Arreglo está vacío \n");
