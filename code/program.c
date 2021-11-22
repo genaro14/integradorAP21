@@ -251,16 +251,18 @@ void Guardar(TData per, FILE* f){
        printf("Error! opening file");
 	   exit;
    	}
-
-	while(i <= per.cant){
-
+	//TEST & DEBUG //
+	printf("cant: %d \n", per.cant);
+	while(i < per.cant){
 		strcpy(aux.nombre, per.info[i].nombre);
 		aux.edad = per.info[i].edad;
 		aux.dni = per.info[i].dni;
 		aux.borrado = 0;
 		fwrite(&aux,sizeof(TPersona),1,f);
 		//fflush(stdin); //limpia buffer
-		i = i++;
+		//TEST & DEBUG //
+		printf("i: %d \n", i);
+		i++;
 	}
 
 	fclose(f);
@@ -312,7 +314,7 @@ void MostrarMenores(TNodo *lis){
 	}else{
 		if (lis != NULL)
 		{
-			printf("\t Lista de los menores de Edad: ");
+			printf("\t Lista de los menores de Edad: \n");
 			while(lis != NULL){
 				printf("\t* Nombre: %s\n",(*lis).info->nombre);   //printf("%s\n",lis->info->nombre);
 				printf("\t* Edad: %d\n",(*lis).info->edad); 	 //printf("%d\n",lis->info->edad);
@@ -499,10 +501,9 @@ int Menu(void){ //pasar VAR
 				printf("ListaMenores y MostrarMenores \n");
 				if (!Vacia(soporte)) 
 				{
-			
 					listaM = NULL;
-					// listaM = ListaMenores(soporte, soporte.cant, listaM)
-					// MostrarMenores(listaM);
+					listaM = ListaMenores(soporte, soporte.cant, listaM);
+					MostrarMenores(listaM);
 				} else 
 				{
 					strcpy(msg, "El Arreglo está vacío \n");
@@ -562,7 +563,8 @@ int Menu(void){ //pasar VAR
 			printf("Guardar y Salir \n");
 			if (!Vacia(soporte)) 
 			{
-				/// </> código Guardar y salir
+			Guardar(soporte,g);
+			exit(0);
 			} else 
 			{
 				strcpy(msgVacio, "El Arreglo está vacío, seguro que quiere guardar? \n");
