@@ -460,9 +460,11 @@ TPers edadMayor(TData per, int cant, TPers aux){
 int Menu(void){ //pasar VAR
 	char msg[26];
 	char msgVacio[56];
+	char msgMayores[63]; 
 	TNodo *listaM;
 	salir = false;
 	int buscarDNI;
+	TPers auxMayor;
 	while(!salir){
 		
 		opciones();
@@ -534,9 +536,17 @@ int Menu(void){ //pasar VAR
 			printf("MayoresQue el primero \n");
 			if (!Vacia(soporte)) 
 			{
-				//OrdenarDNI(soporte);
-				// Entrada: dni
-				//BusquedaDNI(soporte, buscarDni);
+				OrdenarDNI(&soporte);
+				int cantMayores = mayoresQueElPrimero(soporte);
+				// TEST & DEBUG //
+				printf("cantMayores %d \n",cantMayores);
+				if (cantMayores == 0){
+					strcpy(msgMayores," Si existen 3 personas mayores al primer individuo del arreglo" );
+				}else {
+					strcpy(msgMayores,"NO Existen 3 personas mayores al primer individuo del arreglo");
+				}
+				printf("%s",msgMayores);
+
 			} else 
 			{
 				strcpy(msg, "El Arreglo está vacío \n");
@@ -550,7 +560,12 @@ int Menu(void){ //pasar VAR
 			printf("EdadMayor \n");
 			if (!Vacia(soporte)) 
 			{
-				/// </> código
+				// TEST & DEBUG //
+				auxMayor = edadMayor(soporte,soporte.cant,soporte.info[0]);
+				printf("Persona de Mayor Edad\n");
+				printf("Nombre: %s\n", auxMayor.nombre);
+				printf("dni %d\n", auxMayor.dni);
+				printf("edad %d\n", auxMayor.edad);
 			} else 
 			{
 				strcpy(msg, "El Arreglo está vacío \n");
