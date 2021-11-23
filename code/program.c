@@ -14,7 +14,11 @@ PENNONE GENARO
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include<unistd.h>
+#include <unistd.h>
+#if defined(_WIN32) || defined (_WIN64)
+   #include <windows.h>
+#endif
+
 
 #define Max 1000
 typedef char TElem[100];
