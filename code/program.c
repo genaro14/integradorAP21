@@ -147,7 +147,7 @@ int Vacia(TData per){
 /* Funcion Informa Si EL Arreglo esta Lleno */
 int Llena(TData per){
 	//Inicio De La Funcion
-	if (per.cant == 1000) {
+	if (per.cant == Max) {
 		return(1);
 	} else {
 		return(0);
@@ -224,7 +224,7 @@ void Cargar (TData *per, FILE *g){
 	   exit;
    	}
 
-   	while(fread(&aux, sizeof(TPersona), 1, g) > 0) {    
+   	while((fread(&aux, sizeof(TPersona), 1, g) > 0) && i<Max) {    
 		// TEST & DEBUG 
 		//printf("nombre: %s\t dni: %d\tedad: %d\t borrado: %d\n", aux.nombre, aux.dni, aux.edad, aux.borrado);
 		if (aux.borrado == 0){
