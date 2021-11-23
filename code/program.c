@@ -162,7 +162,7 @@ int InsertarAlFinal(TData *per) {
 	char cleanBuffer[2];
 	//Inicio de la funcion
 		if (Llena(*per) ) {
-			printf("No es posible insertar el nuevo nombre ya que el arreglo esta lleno \n");
+			printf("No es posible insertar el nuevo nombre ya que el arreglo esta lleno \n\n");
 		} else {
 			printf("Ingresa el nombre que quieres insertar: ");
 			fgets(cleanBuffer,sizeof cleanBuffer,stdin);// Limpia Buffer
@@ -178,7 +178,7 @@ int InsertarAlFinal(TData *per) {
 			//strcpy((*per).info[(*per).cant-1].nombre, persona.nombre);
 			//(*per).info[(*per).cant-1].edad = persona.edad;
 			//(*per).info[(*per).cant-1].dni = persona.dni;
-			printf("La Persona Fue insertado con exito\n");
+			printf("La Persona Fue insertado con Exito\n\n");
 		}
 }
 
@@ -188,13 +188,13 @@ void SuprimirPersona(TData *per) {
 	//Inicio de la accion
 	if (Vacia(soporte))
 		{ 
-			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n");
+			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n\n");
 		} else { //falta cant=1
 			strcpy(per->info[0].nombre, per->info[per->cant-1].nombre);
 			per->info[0].dni = per->info[per->cant-1].dni;
 			per->info[0].edad = per->info[per->cant-1].edad;
 			per->cant = per->cant - 1;
-			printf("Información suprimida con éxito \n" );
+			printf("Informacion suprimida con Exito.\n\n" );
 		}
 }
 
@@ -203,12 +203,12 @@ void SuprimirPersona(TData *per) {
 void Mostrar(TData per){
 	//Inicio de la accion
 	// TEST & DEBUG// 
-	printf("cant: %d \n",per.cant);
+	printf("Cantidad de cargados: %d \n\n",per.cant);
 	for (int i = 0; i < per.cant; ++i)
 	{
 		printf("Nombre: %s \n", per.info[i].nombre);
 		printf("DNI: %d \n", per.info[i].dni);
-		printf("Edad: %d \n", per.info[i].edad);
+		printf("Edad: %d \n\n", per.info[i].edad);
 	}	
 }
 
@@ -310,11 +310,11 @@ void MostrarMenores(TNodo *lis){
 	//Inicio
 	if (lis == NULL)
 	{
-		printf("La lista esta vacia \n");
+		printf("No existen menores de edad en la lista. \n\n");
 	}else{
 		if (lis != NULL)
 		{
-			printf("\t Lista de los menores de Edad: \n");
+			printf("Lista de los menores de Edad: \n\n");
 			while(lis != NULL){
 				printf("\t* Nombre: %s\n",(*lis).info->nombre);   //printf("%s\n",lis->info->nombre);
 				printf("\t* Edad: %d\n",(*lis).info->edad); 	 //printf("%d\n",lis->info->edad);
@@ -371,7 +371,7 @@ void BusquedaDNI(TData per, int dni){
 	//Inicio
 	if (dni < per.info[0].dni || dni > per.info[per.cant-1].dni)
 	{
-		printf("El elemento no existe en el arreglo");
+		printf("No existe ninguna persona con ese DNI.\n\n");
 	}else{
 		if (per.info[0].dni <= dni && dni <= per.info[per.cant-1].dni)
 		{
@@ -479,28 +479,33 @@ int Menu(void){ //pasar VAR
 		{
 			system("clear||cls");
 			// TEST & DEBUG //
-			printf("Insertar al final \n");		
+			printf("Has Seleccionado *Insertar Al Final* \n\n");		
 			InsertarAlFinal(&soporte);
+			system("pause");
+			system("clear||cls");
 		} 
 		else if (seleccion == 2)
 			{
 			system("clear||cls");
 			// TEST & DEBUG //
-			printf("SuprimirPersona, primer elemento \n");		
+			printf("Has Seleccionado *Suprimir el Primero* \n\n");		
 			SuprimirPersona(&soporte);
+			system("pause");
+			system("clear||cls");
 			} 
 		else if (seleccion == 3)
 			{	
 				system("clear||cls");
-				// TEST & DEBUG //
-				printf("Mostrar \n");		
+				// TEST & DEBUG //		
 				Mostrar(soporte);
+				system("pause");
+				system("clear||cls");
 			} 
 		else if (seleccion == 4)
 			{
 				system("clear||cls");
 				// TEST & DEBUG //
-				printf("ListaMenores y MostrarMenores \n");
+				printf("Has Seleccionado *Mostrar Menores* \n\n");	
 				if (!Vacia(soporte)) 
 				{
 					listaM = NULL;
@@ -511,47 +516,52 @@ int Menu(void){ //pasar VAR
 					strcpy(msg, "El Arreglo está vacío \n");
 					printf("%s", msg);
 				}
+				system("pause");
+				system("clear||cls");
 			}
 		else if (seleccion == 5)
 		{
 			system("clear||cls");
 				//OrdenarDNI(soporte);
 				// TEST & DEBUG //
-				printf("BúsquedaDNI \n");
+				printf("Has Seleccionado *Busqueda Por DNI* \n\n");
 			if (!Vacia(soporte)) 
 			{	
-				printf("DNI: ");
-				scanf("%d",&buscarDNI);		
+				printf("Ingresa el DNI de la Persona: ");
+				scanf("%d",&buscarDNI);	
+				OrdenarDNI(&soporte);
 				BusquedaDNI(soporte, buscarDNI);
 			} else 
 			{
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
+			system("pause");
+			system("clear||cls");
 		}
 		else if (seleccion == 6)
 		{ 
 			system("clear||cls");
 			// TEST & DEBUG //
-			printf("MayoresQue el primero \n");
+			printf("Has seleccionado *Mayores Al Primero* \n\n");
 			if (!Vacia(soporte)) 
 			{
-				OrdenarDNI(&soporte);
 				int cantMayores = mayoresQueElPrimero(soporte);
 				// TEST & DEBUG //
-				printf("cantMayores %d \n",cantMayores);
-				if (cantMayores == 0){
-					strcpy(msgMayores," Si existen 3 personas mayores al primer individuo del arreglo" );
+				if (cantMayores == 1){
+					strcpy(msgMayores,"Si existen 3 personas mayores al primer individuo del arreglo" );
 				}else {
 					strcpy(msgMayores,"NO Existen 3 personas mayores al primer individuo del arreglo");
 				}
-				printf("%s",msgMayores);
+				printf("%s \n\n",msgMayores);
 
 			} else 
 			{
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
+			system("pause");
+			system("clear||cls");
 		}
 		else if (seleccion == 7)
 		{
@@ -562,7 +572,7 @@ int Menu(void){ //pasar VAR
 			{
 				// TEST & DEBUG //
 				auxMayor = edadMayor(soporte,soporte.cant,soporte.info[0]);
-				printf("Persona de Mayor Edad\n");
+				printf("Has Seleccionado *Edad Mayor* \n\n");
 				printf("Nombre: %s\n", auxMayor.nombre);
 				printf("dni %d\n", auxMayor.dni);
 				printf("edad %d\n", auxMayor.edad);
@@ -571,6 +581,8 @@ int Menu(void){ //pasar VAR
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
+			system("pause");
+			system("clear||cls");
 		}
 		else if (seleccion == 0)
 		{
@@ -604,7 +616,7 @@ int Menu(void){ //pasar VAR
 int SanityCheck() {	
 	char *filename = "personas.dat";
 	 if( access( filename, F_OK ) == 0){ 
-        printf("%s ,Archivo encontrado \n",filename);   
+        printf("%s Archivo encontrado \n",filename);   
         return 1;
 	}else if( access( filename, F_OK ) == -1) {
 		printf("El archivo  %s no existe, no puede continuar \n", filename);
