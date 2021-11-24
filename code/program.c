@@ -445,6 +445,8 @@ int mayoresQueElPrimero(TData per){
 			if (cantMayor < 3)
 			{
 				return(0);
+			} else {
+				return(1);
 			}
 		}
 	}
@@ -512,8 +514,12 @@ int Menu(void){ //pasar VAR
 		else if (seleccion == 3)
 			{	
 				system("clear||cls");
-				// TEST & DEBUG //		
-				Mostrar(soporte);
+				// TEST & DEBUG //
+				if (!Vacia(soporte)){
+					Mostrar(soporte);
+				} else {
+					printf("No se puede Mostrar nada ya que El Arreglo Esta Vacio");
+				}
 				pausa();
 				//system("clear||cls");
 			} 
@@ -529,7 +535,7 @@ int Menu(void){ //pasar VAR
 					MostrarMenores(listaM);
 				} else 
 				{
-					strcpy(msg, "El Arreglo está vacío \n");
+					strcpy(msg, "El Arreglo esta vacio \n");
 					printf("%s", msg);
 				}
 				pausa();
@@ -549,7 +555,7 @@ int Menu(void){ //pasar VAR
 				BusquedaDNI(soporte, buscarDNI);
 			} else 
 			{
-				strcpy(msg, "El Arreglo está vacío \n");
+				strcpy(msg, "El Arreglo esta vacio \n");
 				printf("%s", msg);
 			}
 			pausa();
@@ -573,7 +579,7 @@ int Menu(void){ //pasar VAR
 
 			} else 
 			{
-				strcpy(msg, "El Arreglo está vacío \n");
+				strcpy(msg, "El Arreglo esta vacio \n");
 				printf("%s", msg);
 			}
 			pausa();
@@ -594,7 +600,7 @@ int Menu(void){ //pasar VAR
 				printf("edad %d\n", auxMayor.edad);
 			} else 
 			{
-				strcpy(msg, "El Arreglo está vacío \n");
+				strcpy(msg, "El Arreglo esta vacio \n");
 				printf("%s", msg);
 			}
 			pausa();
@@ -611,7 +617,7 @@ int Menu(void){ //pasar VAR
 			exit(0);
 			} else 
 			{
-				strcpy(msgVacio, "El Arreglo está vacío, seguro que quiere guardar? \n");
+				strcpy(msgVacio, "El Arreglo esta vacio, seguro que quiere guardar? \n");
 				/// </> código Guardar y salir
 				printf("%s", msgVacio);
 			}
