@@ -21,6 +21,15 @@ PENNONE GENARO
 # elif __unix__ 
 	#define VENTANAS 0
 #endif
+#define P_archivo "../files/personas.dat" // Archivo Original
+//#define P_archivo "../files/ArchivoVacio/personas.dat" // Archivo Vacio
+//#define P_archivo "../files/MayoresDeMismaEdad/personas.dat" // Mayores de Misma Edad
+//#define P_archivo "../files/TodosBorradosLogicos/personas.dat" // Todos Borrados Logicos
+//#define P_archivo "../files/tresMayoresAlPrimero/personas.dat" // Tres Mayores al primero
+
+
+
+
 
 
 #define Max 1000
@@ -230,7 +239,7 @@ void Cargar (TData *per, FILE *g){
 	TPersona aux;
 	int i=0;
 	//inicio de la accion
-	if ((g = fopen("personas.dat","rb")) == NULL){
+	if ((g = fopen(P_archivo,"rb")) == NULL){
        printf("Archivo vacío");
 	   exit;
    	}
@@ -258,7 +267,7 @@ void Guardar(TData per, FILE* f){
 	int i = 0;
 	TPersona aux;
 	//Inicio
-	if ((f = fopen("personas.dat","w")) == NULL){
+	if ((f = fopen(P_archivo,"w")) == NULL){
        printf("Error! opening file");
 	   exit;
    	}
@@ -621,7 +630,8 @@ int Menu(void){ //pasar VAR
 	
 }
 int SanityCheck() {	
-	char *filename = "personas.dat";
+
+	char *filename = P_archivo;
 	 if( access( filename, F_OK ) == 0){ 
         printf("%s Archivo encontrado \n",filename);   
         return 1;
