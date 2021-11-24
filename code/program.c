@@ -28,10 +28,6 @@ PENNONE GENARO
 //#define P_archivo "../files/tresMayoresAlPrimero/personas.dat" // Tres Mayores al primero
 
 
-
-
-
-
 #define Max 1000
 typedef char TElem[100];
 
@@ -116,7 +112,7 @@ TPers edadMayor(TData per, int cant, TPers aux);
 void opciones(void);
 
 /* Menu  */
-int Menu(void);
+int Menu(TData personas);
 
 /* SANITY CHECK */
 int SanityCheck();
@@ -127,7 +123,7 @@ void pausa();
 int main() {	
 	if(SanityCheck()){
 		Cargar(&soporte,g);
-		Menu();
+		Menu(soporte);
 	} else{
 		exit(1);
 	}
@@ -206,7 +202,7 @@ int InsertarAlFinal(TData *per) {
 /* Accion Suprime Primera Persona Del Arreglo */
 void SuprimirPersona(TData *per) {
 	//Inicio de la accion
-	if (Vacia(soporte))
+	if (Vacia(*per))
 		{ 
 			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n\n");
 		} else { //falta cant=1
@@ -475,7 +471,7 @@ TPers edadMayor(TData per, int cant, TPers aux){
 }
 
 //Inciso M
-int Menu(void){ //pasar VAR
+int Menu(TData personas){ //pasar VAR
 	char msg[26];
 	char msgVacio[56];
 	char msgMayores[63]; 
@@ -498,7 +494,7 @@ int Menu(void){ //pasar VAR
 			system("clear||cls");
 			// TEST & DEBUG //
 			printf("Has Seleccionado *Insertar Al Final* \n\n");		
-			InsertarAlFinal(&soporte);
+			InsertarAlFinal(&personas);
 			pausa();
 			system("clear||cls");
 		} 
@@ -507,7 +503,7 @@ int Menu(void){ //pasar VAR
 			system("clear||cls");
 			// TEST & DEBUG //
 			printf("Has Seleccionado *Suprimir el Primero* \n\n");		
-			SuprimirPersona(&soporte);
+			SuprimirPersona(&personas);
 			pausa();
 			system("clear||cls");
 			} 
@@ -515,23 +511,23 @@ int Menu(void){ //pasar VAR
 			{	
 				system("clear||cls");
 				// TEST & DEBUG //
-				if (!Vacia(soporte)){
-					Mostrar(soporte);
+				if (!Vacia(personas)){
+					Mostrar(personas);
 				} else {
-					printf("No se puede Mostrar nada ya que El Arreglo Esta Vacio \n\n");
+					printf("No se puede Mostrar nada ya que El Arreglo Esta Vacio");
 				}
 				pausa();
-				//system("clear||cls");
+				system("clear||cls");
 			} 
 		else if (seleccion == 4)
 			{
 				system("clear||cls");
 				// TEST & DEBUG //
 				printf("Has Seleccionado *Mostrar Menores* \n\n");	
-				if (!Vacia(soporte)) 
+				if (!Vacia(personas)) 
 				{
 					listaM = NULL;
-					listaM = ListaMenores(soporte, soporte.cant, listaM);
+					listaM = ListaMenores(personas, personas.cant, listaM);
 					MostrarMenores(listaM);
 				} else 
 				{
@@ -544,15 +540,15 @@ int Menu(void){ //pasar VAR
 		else if (seleccion == 5)
 		{
 			system("clear||cls");
-				//OrdenarDNI(soporte);
+				//OrdenarDNI(personas);
 				// TEST & DEBUG //
 				printf("Has Seleccionado *Busqueda Por DNI* \n\n");
-			if (!Vacia(soporte)) 
+			if (!Vacia(personas)) 
 			{	
 				printf("Ingresa el DNI de la Persona: ");
 				scanf("%d",&buscarDNI);	
-				OrdenarDNI(&soporte);
-				BusquedaDNI(soporte, buscarDNI);
+				OrdenarDNI(&personas);
+				BusquedaDNI(personas, buscarDNI);
 			} else 
 			{
 				strcpy(msg, "El Arreglo esta vacio \n");
@@ -566,9 +562,9 @@ int Menu(void){ //pasar VAR
 			system("clear||cls");
 			// TEST & DEBUG //
 			printf("Has seleccionado *Mayores Al Primero* \n\n");
-			if (!Vacia(soporte)) 
+			if (!Vacia(personas)) 
 			{
-				int cantMayores = mayoresQueElPrimero(soporte);
+				int cantMayores = mayoresQueElPrimero(personas);
 				// TEST & DEBUG //
 				if (cantMayores == 1){
 					strcpy(msgMayores,"Si existen 3 personas mayores al primer individuo del arreglo" );
@@ -590,10 +586,10 @@ int Menu(void){ //pasar VAR
 			system("clear||cls");
 			// TEST & DEBUG //
 			printf("EdadMayor \n");
-			if (!Vacia(soporte)) 
+			if (!Vacia(personas)) 
 			{
 				// TEST & DEBUG //
-				auxMayor = edadMayor(soporte,soporte.cant,soporte.info[0]);
+				auxMayor = edadMayor(personas,personas.cant,personas.info[0]);
 				printf("Has Seleccionado *Edad Mayor* \n\n");
 				printf("Nombre: %s\n", auxMayor.nombre);
 				printf("dni %d\n", auxMayor.dni);
@@ -611,9 +607,9 @@ int Menu(void){ //pasar VAR
 			system("clear||cls");
 			// TEST & DEBUG //
 			printf("Guardar y Salir \n");
-			if (!Vacia(soporte)) 
+			if (!Vacia(personas)) 
 			{
-			Guardar(soporte,g);
+			Guardar(personas,g);
 			exit(0);
 			} else 
 			{
