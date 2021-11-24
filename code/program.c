@@ -187,6 +187,11 @@ int InsertarAlFinal(TData *per) {
 			persona.nombre[size-1] = '\0'; // Replace '\n' for '\0', line Ending
 			printf("Ingresa la edad: ");
 			scanf("%d", &persona.edad);
+			/* Chequea que la edad este entre 1 y 80 */
+			while(persona.edad < 1 || persona.edad > 80){
+				printf("Vuelve a Ingresar la edad: ");
+				scanf("%d", &persona.edad);
+			}
 			printf("Ingresa El DNI: ");
 			scanf("%d", &persona.dni);
 			(*per).cant = (*per).cant+1;
