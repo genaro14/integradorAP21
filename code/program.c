@@ -16,7 +16,10 @@ PENNONE GENARO
 #include <stdbool.h>
 #include <unistd.h>
 #if defined(_WIN32) || defined (_WIN64)
-   #include <windows.h>
+   #include <windows.h> 
+   #define VENTANAS 1
+# elif __unix__ 
+	#define VENTANAS 0
 #endif
 
 
@@ -102,11 +105,15 @@ TPers edadMayor(TData per, int cant, TPers aux);
 
 /* Accion Opciones */
 void opciones(void);
+
 /* Menu  */
 int Menu(void);
+
 /* SANITY CHECK */
 int SanityCheck();
 
+/* Funcion de pausa independiente del SO*/
+void pausa();
 
 int main() {	
 	if(SanityCheck()){
@@ -123,7 +130,7 @@ int main() {
 /* Accion Que Muestra las Opciones del Menu */
 void opciones(void) {
 	printf("\t\tMENU de Opciones\n");
-    	printf("\t\t----------------\n\n");
+   	printf("\t\t----------------\n\n");
 	printf("[1] Insetar al final \n");
 	printf("[2] Suprimir el primero \n");
 	printf("[3] Mostrar todos \n");
@@ -268,7 +275,6 @@ void Guardar(TData per, FILE* f){
 		printf("i: %d \n", i);
 		i++;
 	}
-
 	fclose(f);
 }
 
@@ -330,8 +336,6 @@ void MostrarMenores(TNodo *lis){
 	}
 }
 	
-
-
 void Swap(int x, int y, TData *per){
 TPers temp;
 temp = per->info[x];
@@ -340,7 +344,6 @@ per->info[y] = temp;
 // strcpy(temp.nombre, per->info[x]->nombre);
 // temp.edad = per->info[x]->edad;
 // temp.dni = per->info[x]->dni;
-
 }
 
 //Inciso J
@@ -485,7 +488,7 @@ int Menu(void){ //pasar VAR
 			// TEST & DEBUG //
 			printf("Has Seleccionado *Insertar Al Final* \n\n");		
 			InsertarAlFinal(&soporte);
-			system("pause");
+			pausa();
 			system("clear||cls");
 		} 
 		else if (seleccion == 2)
@@ -494,7 +497,7 @@ int Menu(void){ //pasar VAR
 			// TEST & DEBUG //
 			printf("Has Seleccionado *Suprimir el Primero* \n\n");		
 			SuprimirPersona(&soporte);
-			system("pause");
+			pausa();
 			system("clear||cls");
 			} 
 		else if (seleccion == 3)
@@ -502,8 +505,8 @@ int Menu(void){ //pasar VAR
 				system("clear||cls");
 				// TEST & DEBUG //		
 				Mostrar(soporte);
-				system("pause");
-				system("clear||cls");
+				pausa();
+				//system("clear||cls");
 			} 
 		else if (seleccion == 4)
 			{
@@ -520,7 +523,7 @@ int Menu(void){ //pasar VAR
 					strcpy(msg, "El Arreglo está vacío \n");
 					printf("%s", msg);
 				}
-				system("pause");
+				pausa();
 				system("clear||cls");
 			}
 		else if (seleccion == 5)
@@ -540,7 +543,7 @@ int Menu(void){ //pasar VAR
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
-			system("pause");
+			pausa();
 			system("clear||cls");
 		}
 		else if (seleccion == 6)
@@ -564,7 +567,7 @@ int Menu(void){ //pasar VAR
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
-			system("pause");
+			pausa();
 			system("clear||cls");
 		}
 		else if (seleccion == 7)
@@ -585,7 +588,7 @@ int Menu(void){ //pasar VAR
 				strcpy(msg, "El Arreglo está vacío \n");
 				printf("%s", msg);
 			}
-			system("pause");
+			pausa();
 			system("clear||cls");
 		}
 		else if (seleccion == 0)
@@ -627,3 +630,12 @@ int SanityCheck() {
 		return 0;
 	} 
 } // END SANITY CHECK
+
+void pausa(){
+	if(VENTANAS	) {
+		system("pause");
+	}
+	else {
+		while ( getchar() != '\n');
+	}
+}
