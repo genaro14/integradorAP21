@@ -518,7 +518,7 @@ int Menu(void){ //pasar VAR
 				if (!Vacia(soporte)){
 					Mostrar(soporte);
 				} else {
-					printf("No se puede Mostrar nada ya que El Arreglo Esta Vacio");
+					printf("No se puede Mostrar nada ya que El Arreglo Esta Vacio \n\n");
 				}
 				pausa();
 				//system("clear||cls");
