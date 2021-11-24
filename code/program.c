@@ -637,5 +637,6 @@ void pausa(){
 	}
 	else {
 		while ( getchar() != '\n');
+		while ( getchar() != '\n');
 	}
 }
