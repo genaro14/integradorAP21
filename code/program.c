@@ -21,7 +21,7 @@ PENNONE GENARO
 # elif __unix__ 
 	#define VENTANAS 0
 #endif
-#define P_archivo "../files/personas.dat" // Archivo Original
+#define P_archivo "personas.dat" // Archivo Original
 //#define P_archivo "../files/ArchivoVacio/personas.dat" // Archivo Vacio
 //#define P_archivo "../files/MayoresDeMismaEdad/personas.dat" // Mayores de Misma Edad
 //#define P_archivo "../files/TodosBorradosLogicos/personas.dat" // Todos Borrados Logicos
@@ -655,17 +655,19 @@ void Menu(TData personas){
 	};
 	
 }
+
 int SanityCheck() {	
 
 	char *filename = P_archivo;
-	 if( access( filename, F_OK ) == 0){ 
-        printf("%s Archivo encontrado \n",filename);   
+	 if( access( filename, F_OK ) == 0){  
         return 1;
 	}else if( access( filename, F_OK ) == -1) {
 		printf("El archivo  %s no existe, no puede continuar \n", filename);
+		pausa();
 		return 0;
 	} 
 } // END SANITY CHECK
+
 
 void pausa(){
 	if(VENTANAS	) {
