@@ -28,6 +28,7 @@ PENNONE GENARO
 //#define P_archivo "../files/tresMayoresAlPrimero/personas.dat" // Tres Mayores al primero
 
 
+
 #define Max 1000
 typedef char TElem[100];
 
@@ -54,13 +55,8 @@ typedef struct nodo {
 	struct nodo *next;
 }TNodo;
 
-TData soporte;
-char nuevoName[100];
-
-int volver,seleccion;
-bool salir;
-FILE *g;
-FILE *f;
+TData soporte;		//arreglo pasado como parametro en el menu
+FILE *g; 			//nombre interno que se le dará al archivo Personas.dat en la carga al arreglo
 
 /* Accion Vacia */
 int Vacia(TData nom);
@@ -112,7 +108,7 @@ TPers edadMayor(TData per, int cant, TPers aux);
 void opciones(void);
 
 /* Menu  */
-int Menu(TData personas);
+void Menu(TData personas);
 
 /* SANITY CHECK */
 int SanityCheck();
@@ -120,6 +116,7 @@ int SanityCheck();
 /* Funcion de pausa independiente del SO*/
 void pausa();
 
+//Inicio
 int main() {	
 	if(SanityCheck()){
 		Cargar(&soporte,g);
@@ -187,7 +184,6 @@ int InsertarAlFinal(TData *per) {
 			persona.nombre[size-1] = '\0'; // Replace '\n' for '\0', line Ending
 			printf("Ingresa la edad: ");
 			scanf("%d", &persona.edad);
-			/* Chequea que la edad este entre 1 y 80 */
 			while(persona.edad < 1 || persona.edad > 80){
 				printf("Vuelve a Ingresar la edad: ");
 				scanf("%d", &persona.edad);
@@ -210,18 +206,25 @@ void SuprimirPersona(TData *per) {
 	if (Vacia(*per))
 		{ 
 			printf("No se puede suprimir ningun nombre, porque el arreglo esta vacio \n\n");
-		} else { //falta cant=1
-			strcpy(per->info[0].nombre, per->info[per->cant-1].nombre);
-			per->info[0].dni = per->info[per->cant-1].dni;
-			per->info[0].edad = per->info[per->cant-1].edad;
-			per->cant = per->cant - 1;
-			printf("Informacion suprimida con Exito.\n\n" );
+		} else {
+			if ((*per).cant > 1)
+			{
+			
+				strcpy(per->info[0].nombre, per->info[per->cant-1].nombre);
+				per->info[0].dni = per->info[per->cant-1].dni;
+				per->info[0].edad = per->info[per->cant-1].edad;
+				per->cant = per->cant - 1;
+				printf("Informacion suprimida con Exito.\n\n" );
+			} else {
+				per->cant = per->cant - 1;			//Si per.cant = 1 se quedara en 0
+			}
 		}
 }
 
 //Inciso E
 /* Accion Mostrar El Arreglo */
 void Mostrar(TData per){
+	int i;
 	//Inicio de la accion
 	// TEST & DEBUG// 
 	printf("Cantidad de cargados: %d \n\n",per.cant);
@@ -304,12 +307,12 @@ void CargarALista (TData per,int i,TNodo **aux){
 //Inciso I
 /* Funcion recursiva que crea una lista con la informacion de los menores de edad*/
 TNodo* ListaMenores(TData per, int cant, TNodo *lis){
-	//Inicio
-	if (cant == 0)
+	//Inicio	
+	if (cant == 0)			//caso base
 	{
 		return(lis);
 	} else {
-		if (cant > 0)
+		if (cant > 0)		//etapa inductiva
 		{
 			if (per.info[cant-1].edad < 18)
 			{
@@ -458,11 +461,11 @@ int mayoresQueElPrimero(TData per){
 //Inciso L
 TPers edadMayor(TData per, int cant, TPers aux){
 	//Inicio
-	if (cant == 0)
+	if (cant == 0)				//caso base
 	{
 		return(aux);
 	} else {
-		if (cant > 0)
+		if (cant > 0)			//Etapa Inductiva
 		{
 			if (aux.edad < per.info[cant].edad)
 			{
@@ -476,25 +479,30 @@ TPers edadMayor(TData per, int cant, TPers aux){
 }
 
 //Inciso M
-int Menu(TData personas){ //pasar VAR
-	char msg[26];
-	char msgVacio[56];
-	char msgMayores[63]; 
-	TNodo *listaM;
-	salir = false;
-	int buscarDNI;
-	TPers auxMayor;
-	while(!salir){
+void Menu(TData personas){
+	//Lexico
+	char msg[150];			//variable que utilizaremos para informar mensajes
+	int selec;				//Variable utilizada para la selección de opciones
+	TNodo *listaM;			//variable que utilizada para lista de menores de edad
+	bool term;				//variable utilizada para salir del ciclo
+	int dni;				//variable utilizada para la entrada del DNI a buscar
+	TPers mostrarPersona;	//variable utilizada para mostrar la información de la persona mayor
+	FILE *f;				//nombre interno que se le dará al archivo Personas.dat
+	int cantMayores;
+	int salir;
+	//Inicio
+	term = false; 
+	while(!term){
 		
 		opciones();
-		scanf("%d", &seleccion);
-		while(seleccion < 0 || seleccion > 7 ){
+		scanf("%d", &selec);
+		while(selec < 0 || selec > 7 ){
 			system("clear||cls");
 			printf("No existe ninguna operacion con ese numero. \n");
 			opciones();
-			scanf("%d", &seleccion);
+			scanf("%d", &selec);
 		}
-		if (seleccion == 1)
+		if (selec == 1)
 		{
 			system("clear||cls");
 			// TEST & DEBUG //
@@ -503,7 +511,7 @@ int Menu(TData personas){ //pasar VAR
 			pausa();
 			system("clear||cls");
 		} 
-		else if (seleccion == 2)
+		else if (selec == 2)
 			{
 			system("clear||cls");
 			// TEST & DEBUG //
@@ -512,7 +520,7 @@ int Menu(TData personas){ //pasar VAR
 			pausa();
 			system("clear||cls");
 			} 
-		else if (seleccion == 3)
+		else if (selec == 3)
 			{	
 				system("clear||cls");
 				// TEST & DEBUG //
@@ -524,7 +532,7 @@ int Menu(TData personas){ //pasar VAR
 				pausa();
 				system("clear||cls");
 			} 
-		else if (seleccion == 4)
+		else if (selec == 4)
 			{
 				system("clear||cls");
 				// TEST & DEBUG //
@@ -542,7 +550,7 @@ int Menu(TData personas){ //pasar VAR
 				pausa();
 				system("clear||cls");
 			}
-		else if (seleccion == 5)
+		else if (selec == 5)
 		{
 			system("clear||cls");
 				//OrdenarDNI(personas);
@@ -551,9 +559,9 @@ int Menu(TData personas){ //pasar VAR
 			if (!Vacia(personas)) 
 			{	
 				printf("Ingresa el DNI de la Persona: ");
-				scanf("%d",&buscarDNI);	
 				OrdenarDNI(&personas);
-				BusquedaDNI(personas, buscarDNI);
+				scanf("%d",&dni);	
+				BusquedaDNI(personas, dni);
 			} else 
 			{
 				strcpy(msg, "El Arreglo esta vacio \n");
@@ -562,21 +570,21 @@ int Menu(TData personas){ //pasar VAR
 			pausa();
 			system("clear||cls");
 		}
-		else if (seleccion == 6)
+		else if (selec == 6)
 		{ 
 			system("clear||cls");
 			// TEST & DEBUG //
 			printf("Has seleccionado *Mayores Al Primero* \n\n");
 			if (!Vacia(personas)) 
 			{
-				int cantMayores = mayoresQueElPrimero(personas);
+				cantMayores = mayoresQueElPrimero(personas);
 				// TEST & DEBUG //
 				if (cantMayores == 1){
-					strcpy(msgMayores,"Si existen 3 personas mayores al primer individuo del arreglo" );
+					strcpy(msg,"Si existen 3 personas mayores al primer individuo del arreglo" );
 				}else {
-					strcpy(msgMayores,"NO Existen 3 personas mayores al primer individuo del arreglo");
+					strcpy(msg,"NO Existen 3 personas mayores al primer individuo del arreglo");
 				}
-				printf("%s \n\n",msgMayores);
+				printf("%s \n\n",msg);
 
 			} else 
 			{
@@ -586,7 +594,7 @@ int Menu(TData personas){ //pasar VAR
 			pausa();
 			system("clear||cls");
 		}
-		else if (seleccion == 7)
+		else if (selec == 7)
 		{
 			system("clear||cls");
 			// TEST & DEBUG //
@@ -594,11 +602,11 @@ int Menu(TData personas){ //pasar VAR
 			if (!Vacia(personas)) 
 			{
 				// TEST & DEBUG //
-				auxMayor = edadMayor(personas,personas.cant,personas.info[0]);
+				mostrarPersona = edadMayor(personas,personas.cant-1,personas.info[0]);
 				printf("Has Seleccionado *Edad Mayor* \n\n");
-				printf("Nombre: %s\n", auxMayor.nombre);
-				printf("dni %d\n", auxMayor.dni);
-				printf("edad %d\n", auxMayor.edad);
+				printf("Nombre: %s\n", mostrarPersona.nombre);
+				printf("dni %d\n", mostrarPersona.dni);
+				printf("edad %d\n", mostrarPersona.edad);
 			} else 
 			{
 				strcpy(msg, "El Arreglo esta vacio \n");
@@ -607,30 +615,41 @@ int Menu(TData personas){ //pasar VAR
 			pausa();
 			system("clear||cls");
 		}
-		else if (seleccion == 0)
+		else if (selec == 0)
 		{
 			system("clear||cls");
 			// TEST & DEBUG //
-			printf("Guardar y Salir \n");
 			if (!Vacia(personas)) 
 			{
 			Guardar(personas,g);
-			exit(0);
+			term = true;
 			} else 
 			{
-				strcpy(msgVacio, "El Arreglo esta vacio, seguro que quiere guardar? \n");
-				/// </> código Guardar y salir
-				printf("%s", msgVacio);
+				strcpy(msg, "El Arreglo esta vacio, seguro que quiere guardar?\n Presiona [1] Si [2] No\n\n Opcion: ");
+				printf("%s", msg);
+				scanf("%d", &salir);
+				while(salir != 1 && salir != 2){
+					strcpy(msg, "La Opcion No es VALIDA!\n\nEl Arreglo esta vacio, seguro que quiere guardar?\n Presiona [1] Si [2] No\n\n Opcion: ");
+					printf("%s", msg);
+					scanf("%d", &salir);
+				}
+				system("clear||cls");
+				if (salir == 1)
+				{
+					Guardar(personas,g);
+					term = true;
+				}
+
 			}
 		}
 		
-		// else if (seleccion > 7 || seleccion < 0)
+		// else if (selec > 7 || selec < 0)
 		// {
 		// 	printf("Si quiere SALIR presione [1], para volver al MENU Presione [Cualquier Otro Numero]");
 		// 	scanf("%d", &volver);
 		// 	if (volver == 1)
 		// 	{
-		// 		salir =true;
+		// 		term  =true;
 		// 	}
 		// }
 	};
